@@ -9,7 +9,7 @@
 #import "ImageViewGridLayer.h"
 #import "MyDocument.h"
 
-
+// Thanks to Bill Dudney (http://bill.dudney.net/roller/objc/entry/nscolor_cgcolorref)
 @implementation NSColor(CGColor)
 - (CGColorRef)CGColor {
     CGColorSpaceRef colorSpace = [[self colorSpace] CGColorSpace];
@@ -82,26 +82,43 @@
 	CGContextStrokePath(context);
 	
 	// now we stroke the points...
-	CGContextSetStrokeColorWithColor(context, [[NSColor greenColor] CGColor]);
 	for (int r = 0; r < [document.pointMatrix count]; r++) {
 		for (int c = 0; c < [[document.pointMatrix objectAtIndex:r] count]; c++) {
 			NSMutableArray *points = [[document.pointMatrix objectAtIndex:r] objectAtIndex:c];
 			float originX = (imageSize.width / cols) * c;
 			float originY = (imageSize.height / rows) * r;
+			float firstX = 0;
+			float firstY = 0;
+			float lastX = 0;
+			float lastY = 0;
 			
 			// at the beginning of a different sprite...
 			
-			for (int p = 0; p < [points count]; p++) {
-				float x = [[points objectAtIndex:p] pointValue].x + (colWidth / 2) + originX;
-				float y = [[points objectAtIndex:p] pointValue].y + (rowHeight / 2) + originY;
-				
-				
-				if (p == 0) {
-					CGContextMoveToPoint(context, x, y);
-				} else {
-					CGContextAddLineToPoint(context, x, y);
-				}
+			if ([points count] > 1) {
+				for (int p = 0; p < [points count]; p++) {
+					float x = [[points objectAtIndex:p] pointValue].x + (colWidth / 2) + originX;
+					float y = [[points objectAtIndex:p] pointValue].y + (rowHeight / 2) + originY;
+					
+					
+					if (p == 0) {
+						CGContextMoveToPoint(context, x, y);
+						firstX = x;
+						firstY = y;
+					} else {
+						CGContextAddLineToPoint(context, x, y);
+						lastX = x;
+						lastY = y;
+					}
 
+				}
+				CGContextSetStrokeColorWithColor(context, [[NSColor greenColor] CGColor]);
+				CGContextStrokePath(context);
+				
+				// the last "auto-connected" line will have a different color...
+				CGContextSetStrokeColorWithColor(context, [[NSColor grayColor] CGColor]);
+				CGContextMoveToPoint(context, lastX, lastY);
+				CGContextAddLineToPoint(context, firstX, firstY);
+				CGContextStrokePath(context);
 			}
 		}
 	}
