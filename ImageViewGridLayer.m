@@ -7,9 +7,13 @@
 //
 
 #import "ImageViewGridLayer.h"
-#import "MyDocument.h"
+#import "VertexDocument.h"
 
 // Thanks to Bill Dudney (http://bill.dudney.net/roller/objc/entry/nscolor_cgcolorref)
+@interface NSColor(CGColor)
+- (CGColorRef)CGColor;
+@end
+
 @implementation NSColor(CGColor)
 - (CGColorRef)CGColor {
     CGColorSpaceRef colorSpace = [[self colorSpace] CGColorSpace];
@@ -20,12 +24,10 @@
     free((void*)components);
     return color;
 }
-
 @end
 
 
 @implementation ImageViewGridLayer
-
 
 @synthesize owner, document, rows, cols;
 
@@ -143,13 +145,9 @@
 		int currentRow = p.y / rowHeight + (yExtra > 0 ? 1 : 0); 
 		int currentCol = p.x / colWidth + (xExtra > 0 ? 1 : 0);
 		
-		NSLog(@"row: %i, col: %i", currentRow, currentCol);
-		
 		if (currentRow > 0 && currentCol > 0 && currentCol <= cols && currentRow <= rows) {
 			relativePoint.x = (p.x - ((currentCol - 1) * colWidth)) - (colWidth / 2);
 			relativePoint.y = (p.y - ((currentRow - 1) * rowHeight)) - (rowHeight / 2);
-			
-			NSLog(@"x: %.f, y: %.f", relativePoint.x, relativePoint.y);
 			
 			[document addPoint:relativePoint forRow:currentRow col:currentCol];
 		}

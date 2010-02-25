@@ -9,16 +9,16 @@
 #import <Quartz/Quartz.h>
 #import <Cocoa/Cocoa.h>
 
-@class MyDocument;
+@class VertexDocument;
 
 @interface ImageViewGridLayer : CALayer {
 	IKImageView *owner;
-	MyDocument *document;
+	VertexDocument *document;
 	int rows;
 	int cols;
 }
 @property (assign) IKImageView *owner;
-@property (assign) MyDocument *document;
+@property (assign) VertexDocument *document;
 @property (assign) int rows;
 @property (assign) int cols;
 

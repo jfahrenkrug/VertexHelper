@@ -1,14 +1,21 @@
 //
-//  MyDocument.m
+//  VertexDocument.m
 //  VertexHelper
 //
 //  Created by Johannes Fahrenkrug on 19.02.10.
 //  Copyright 2010 Springenwerk. All rights reserved.
 //
 
-#import "MyDocument.h"
+#import "VertexDocument.h"
 
-@implementation MyDocument
+#define VHTYPE_PURE		0
+#define VHTYPE_BOX2D	1
+#define VHTYPE_CHIPMUNK 2
+
+#define VHSTYLE_ASSIGN	0
+#define VHSTYLE_INIT	1
+
+@implementation VertexDocument
 
 @synthesize pointMatrix;
 
@@ -16,30 +23,23 @@
 {
     self = [super init];
     if (self) {
-    
-        // Add your subclass-specific initialization here.
-        // If an error occurs here, send a [self release] message and return nil.
 		pointMatrix = [[NSMutableArray alloc] init];
-    
     }
     return self;
 }
 
 - (NSString *)windowNibName
 {
-    // Override returning the nib file name of the document
-    // If you need to use a subclass of NSWindowController or if your document supports multiple NSWindowControllers, you should remove this method and override -makeWindowControllers instead.
-    return @"MyDocument";
+    return @"VertexDocument";
 }
 
 - (void)windowControllerDidLoadNib:(NSWindowController *) aController
 {
     [super windowControllerDidLoadNib:aController];
-    // Add any code here that needs to be executed once the windowController has loaded the document's window.
-	[imageView setImageWithURL:[NSURL URLWithString:@"file:///Users/johannes/Code/Liebherr-Ice-Crusher/Resources/ice-cubes-atlas1.png"]];
+
+	[imageView setImageWithURL:[[NSBundle mainBundle] URLForImageResource:@"drop_sprite.png"]];
 	[imageView setCurrentToolMode: IKToolModeMove];
-	[imageView setDoubleClickOpensImageEditPanel:NO];
-	
+	[imageView setDoubleClickOpensImageEditPanel:NO];	
 	
 	gridLayer = [ImageViewGridLayer layer];
 	gridLayer.owner = imageView;
@@ -102,6 +102,11 @@
 	}
 }
 
+- (IBAction)updateOutput:(id)sender
+{
+	[self updateResultTextField];
+}
+
 - (IBAction)makeAnnotatable:(id)sender 
 {
 	if ([(NSButton *)sender state] == NSOnState) {
@@ -114,7 +119,6 @@
 
 - (void)addPoint:(NSPoint)aPoint forRow:(int)aRow col:(int)aCol 
 {
-	NSLog(@"adding point...");
 	[[[pointMatrix objectAtIndex:(aRow - 1)] objectAtIndex:(aCol - 1)] addObject:[NSValue valueWithPoint:aPoint]];
 	[gridLayer setNeedsDisplay];
 	[self updateResultTextField];
@@ -123,23 +127,89 @@
 - (void)updateResultTextField
 {
 	NSString *result = [NSString string];
+	NSString *variableName = [variableTextField stringValue];
 	
-	for (int r = 0; r < [pointMatrix count]; r++) {
+	if (!variableName || [variableName length] < 1) {
+		variableName = @"verts";
+	}
+	
+	for (int r = [pointMatrix count] - 1; r >= 0; r--) {
 		for (int c = 0; c < [[pointMatrix objectAtIndex:r] count]; c++) {
 			NSMutableArray *points = [[pointMatrix objectAtIndex:r] objectAtIndex:c];
+			NSString *itemString = nil;
 			
 			// at the beginning of a different sprite...
-			result = [result stringByAppendingFormat:@"//row %i, col %i\nnum = %i;\n", (r + 1), (c + 1), [points count]];
+			result = [result stringByAppendingFormat:@"//row %i, col %i\n", ([pointMatrix count] - r), (c + 1)];
+			
+			if ([typePopUpButton selectedTag] != VHTYPE_PURE) {
+				result = [result stringByAppendingFormat:@"num = %i;\n", [points count]];
+			}
 			
 			for (int p = 0; p < [points count]; p++) {
 				NSPoint point = [[points objectAtIndex:p] pointValue];
-				result = [result stringByAppendingFormat:@"verts[%i].Set(%.1ff / PTM_RATIO, %.1ff / PTM_RATIO);\n", p, point.x, point.y];
+				switch ([typePopUpButton selectedTag]) {
+					case VHTYPE_PURE:
+						result = [result stringByAppendingFormat:@"%.1f, %.1f\n", p, point.x, point.y];
+						break;
+					case VHTYPE_BOX2D:
+						itemString = [NSString stringWithFormat:@"%.1ff / PTM_RATIO, %.1ff / PTM_RATIO", point.x, point.y];
+						switch ([stylePopUpButton selectedTag]) {
+							case VHSTYLE_ASSIGN:
+								result = [result stringByAppendingFormat:@"%@[%i].Set(%@);\n", variableName, p, itemString];
+								break;
+							case VHSTYLE_INIT:
+								if (p == 0) {
+									result = [result stringByAppendingFormat:@"b2Vec2 %@[] = {", variableName];
+								}
+								
+								result = [result stringByAppendingFormat:@"b2Vec2(%@)", itemString];
+								
+								if (p + 1 == [points count]) {
+									result = [result stringByAppendingString:@"};\n"];
+								} else {
+									result = [result stringByAppendingString:@",\n"];
+								}
+
+								break;
+							default:
+								break;
+						}
+						
+						break;
+					case VHTYPE_CHIPMUNK:
+						itemString = [NSString stringWithFormat:@"ccp(%.1ff, %.1ff)", point.x, point.y];
+						switch ([stylePopUpButton selectedTag]) {
+							case VHSTYLE_ASSIGN:
+								result = [result stringByAppendingFormat:@"%@[%i] = %@;\n", variableName, p, itemString];
+								break;
+							case VHSTYLE_INIT:
+								if (p == 0) {
+									result = [result stringByAppendingFormat:@"CGPoint %@[] = {", variableName];
+								}
+								
+								result = [result stringByAppendingString:itemString];
+								
+								if (p + 1 == [points count]) {
+									result = [result stringByAppendingString:@"};\n"];
+								} else {
+									result = [result stringByAppendingString:@",\n"];
+								}
+								
+								break;
+							default:
+								break;
+						}
+						
+						break;
+					default:
+						break;
+				}
 			}
 			result = [result stringByAppendingString:@"\n"];			  
 		}
 	}
 						  
-	[resultTextField setStringValue:result];
+	[resultTextView setString: result];
 }
 
 

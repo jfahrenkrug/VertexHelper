@@ -1,5 +1,5 @@
 //
-//  MyDocument.h
+//  VertexDocument.h
 //  VertexHelper
 //
 //  Created by Johannes Fahrenkrug on 19.02.10.
@@ -11,12 +11,16 @@
 #import <Quartz/Quartz.h>
 #import "ImageViewGridLayer.h"
 
-@interface MyDocument : NSDocument
+@interface VertexDocument : NSDocument
 {
 	IBOutlet NSTextField *rowsTextField;
 	IBOutlet NSTextField *colsTextField;
-	IBOutlet NSTextField *resultTextField;
+	IBOutlet NSTextView *resultTextView;
 	IBOutlet IKImageView *imageView;
+	
+	IBOutlet NSTextField *variableTextField;
+	IBOutlet NSPopUpButton *typePopUpButton;
+	IBOutlet NSPopUpButton *stylePopUpButton;
 	
 	ImageViewGridLayer *gridLayer;
 	// each row has columns, each column has points
@@ -25,6 +29,7 @@
 
 - (IBAction)updateGrid:(id)sender;
 - (IBAction)makeAnnotatable:(id)sender;
+- (IBAction)updateOutput:(id)sender;
 
 - (void)addPoint:(NSPoint)aPoint forRow:(int)aRow col:(int)aCol;
 - (void)updateResultTextField;
