@@ -16,6 +16,8 @@
 	VertexDocument *document;
 	int rows;
 	int cols;
+	CGColorRef green;
+	CGColorRef gray;
 }
 @property (assign) IKImageView *owner;
 @property (assign) VertexDocument *document;

@@ -36,8 +36,8 @@
 - (void)windowControllerDidLoadNib:(NSWindowController *) aController
 {
     [super windowControllerDidLoadNib:aController];
-
-	[imageView setImageWithURL:[[NSBundle mainBundle] URLForImageResource:@"drop_sprite.png"]];
+	
+	[imageView setImageWithURL:	[NSURL URLWithString:[NSString stringWithFormat:@"file://%@", [[NSBundle mainBundle] pathForImageResource:@"drop_sprite.png"]]]];
 	[imageView setCurrentToolMode: IKToolModeMove];
 	[imageView setDoubleClickOpensImageEditPanel:NO];	
 	
@@ -210,6 +210,13 @@
 	}
 						  
 	[resultTextView setString: result];
+}
+
+- (void)dealloc
+{
+	[pointMatrix release];
+	
+	[super dealloc];
 }
 
 
