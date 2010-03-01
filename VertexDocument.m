@@ -177,7 +177,7 @@
 						
 						break;
 					case VHTYPE_CHIPMUNK:
-						itemString = [NSString stringWithFormat:@"ccp(%.1ff, %.1ff)", point.x, point.y];
+						itemString = [NSString stringWithFormat:@"cpv(%.1ff, %.1ff)", point.x, point.y];
 						switch ([stylePopUpButton selectedTag]) {
 							case VHSTYLE_ASSIGN:
 								result = [result stringByAppendingFormat:@"%@[%i] = %@;\n", variableName, p, itemString];
