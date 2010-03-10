@@ -84,7 +84,7 @@
 	int cols = [[colsTextField stringValue] intValue];
 	
 	
-	if (rows <= 20 && cols <= 20 && (rows != gridLayer.rows || cols != gridLayer.cols)) {
+	if (rows <= 50 && cols <= 50 && (rows != gridLayer.rows || cols != gridLayer.cols)) {
 		//reset our array
 		[pointMatrix removeAllObjects];
 		for (int r = 0; r < rows; r++) {
