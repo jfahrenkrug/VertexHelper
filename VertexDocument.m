@@ -142,7 +142,7 @@
 			result = [result stringByAppendingFormat:@"//row %i, col %i\n", ([pointMatrix count] - r), (c + 1)];
 			
 			if ([typePopUpButton selectedTag] != VHTYPE_PURE) {
-				result = [result stringByAppendingFormat:@"num = %i;\n", [points count]];
+				result = [result stringByAppendingFormat:@"int num = %i;\n", [points count]];
 			}
 			
 			for (int p = 0; p < [points count]; p++) {
@@ -159,13 +159,13 @@
 								break;
 							case VHSTYLE_INIT:
 								if (p == 0) {
-									result = [result stringByAppendingFormat:@"b2Vec2 %@[] = {", variableName];
+									result = [result stringByAppendingFormat:@"b2Vec2 %@[] = {\n", variableName];
 								}
 								
-								result = [result stringByAppendingFormat:@"b2Vec2(%@)", itemString];
+								result = [result stringByAppendingFormat:@"    b2Vec2(%@)", itemString];
 								
 								if (p + 1 == [points count]) {
-									result = [result stringByAppendingString:@"};\n"];
+									result = [result stringByAppendingString:@"\n};\n"];
 								} else {
 									result = [result stringByAppendingString:@",\n"];
 								}
@@ -177,20 +177,20 @@
 						
 						break;
 					case VHTYPE_CHIPMUNK:
-						itemString = [NSString stringWithFormat:@"cpv(%.1ff, %.1ff)", point.x, point.y];
+						itemString = [NSString stringWithFormat:@"    cpv(%.1ff, %.1ff)", point.x, point.y];
 						switch ([stylePopUpButton selectedTag]) {
 							case VHSTYLE_ASSIGN:
 								result = [result stringByAppendingFormat:@"%@[%i] = %@;\n", variableName, p, itemString];
 								break;
 							case VHSTYLE_INIT:
 								if (p == 0) {
-									result = [result stringByAppendingFormat:@"CGPoint %@[] = {", variableName];
+									result = [result stringByAppendingFormat:@"CGPoint %@[] = {\n", variableName];
 								}
 								
 								result = [result stringByAppendingString:itemString];
 								
 								if (p + 1 == [points count]) {
-									result = [result stringByAppendingString:@"};\n"];
+									result = [result stringByAppendingString:@"\n};\n"];
 								} else {
 									result = [result stringByAppendingString:@",\n"];
 								}

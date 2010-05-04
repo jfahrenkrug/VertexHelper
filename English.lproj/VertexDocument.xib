@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
-		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">10C540</string>
-		<string key="IBDocument.InterfaceBuilderVersion">740</string>
-		<string key="IBDocument.AppKitVersion">1038.25</string>
-		<string key="IBDocument.HIToolboxVersion">458.00</string>
+		<int key="IBDocument.SystemTarget">1050</int>
+		<string key="IBDocument.SystemVersion">10D573</string>
+		<string key="IBDocument.InterfaceBuilderVersion">762</string>
+		<string key="IBDocument.AppKitVersion">1038.29</string>
+		<string key="IBDocument.HIToolboxVersion">460.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<object class="NSArray" key="dict.sortedKeys">
@@ -15,12 +15,13 @@
 			</object>
 			<object class="NSMutableArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>740</string>
+				<string>762</string>
 				<string>1.1</string>
 			</object>
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
+			<integer value="100023"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -55,7 +56,7 @@
 				<string key="NSWindowContentMaxSize">{1.79769e+308, 1.79769e+308}</string>
 				<string key="NSWindowContentMinSize">{94, 86}</string>
 				<object class="NSView" key="NSWindowView" id="568628114">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">274</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -72,7 +73,7 @@
 										<object class="NSButton" id="643821912">
 											<reference key="NSNextResponder" ref="808025513"/>
 											<int key="NSvFlags">268</int>
-											<string key="NSFrame">{{268, 301}, {99, 18}}</string>
+											<string key="NSFrame">{{268, 302}, {99, 18}}</string>
 											<reference key="NSSuperview" ref="808025513"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="118179008">
@@ -103,7 +104,7 @@
 										<object class="NSButton" id="335564871">
 											<reference key="NSNextResponder" ref="808025513"/>
 											<int key="NSvFlags">268</int>
-											<string key="NSFrame">{{179, 297}, {83, 25}}</string>
+											<string key="NSFrame">{{179, 298}, {83, 25}}</string>
 											<reference key="NSSuperview" ref="808025513"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="476847853">
@@ -123,7 +124,7 @@
 										<object class="NSButton" id="348755752">
 											<reference key="NSNextResponder" ref="808025513"/>
 											<int key="NSvFlags">268</int>
-											<string key="NSFrame">{{94, 297}, {77, 25}}</string>
+											<string key="NSFrame">{{94, 298}, {77, 25}}</string>
 											<reference key="NSSuperview" ref="808025513"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="812621054">
@@ -143,7 +144,7 @@
 										<object class="NSButton" id="279304298">
 											<reference key="NSNextResponder" ref="808025513"/>
 											<int key="NSvFlags">268</int>
-											<string key="NSFrame">{{20, 297}, {66, 25}}</string>
+											<string key="NSFrame">{{20, 298}, {66, 25}}</string>
 											<reference key="NSSuperview" ref="808025513"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="443600529">
@@ -170,10 +171,10 @@
 													<string>NSFilenamesPboardType</string>
 												</object>
 											</object>
-											<string key="NSFrameSize">{599, 289}</string>
+											<string key="NSFrameSize">{599, 290}</string>
 											<reference key="NSSuperview" ref="808025513"/>
 											<bool key="NSViewIsLayerTreeHost">YES</bool>
-											<float key="zoomFactor">0.0</float>
+											<float key="zoomFactor">0.18125000596046448</float>
 											<float key="rotationAngle">0.0</float>
 											<string key="currentToolMode">IKToolModeNone</string>
 											<bool key="autoresizes">YES</bool>
@@ -189,7 +190,7 @@
 											</object>
 										</object>
 									</object>
-									<string key="NSFrameSize">{599, 341}</string>
+									<string key="NSFrameSize">{599, 342}</string>
 									<reference key="NSSuperview" ref="958765573"/>
 									<string key="NSClassName">NSView</string>
 								</object>
@@ -201,13 +202,13 @@
 										<object class="NSTextField" id="181462871">
 											<reference key="NSNextResponder" ref="190226495"/>
 											<int key="NSvFlags">268</int>
-											<string key="NSFrame">{{17, 38}, {68, 17}}</string>
+											<string key="NSFrame">{{-15, 38}, {100, 17}}</string>
 											<reference key="NSSuperview" ref="190226495"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSTextFieldCell" key="NSCell" id="550451937">
 												<int key="NSCellFlags">68288064</int>
 												<int key="NSCellFlags2">71304192</int>
-												<string key="NSContents">Variable:</string>
+												<string key="NSContents">Name:</string>
 												<reference key="NSSupport" ref="673925191"/>
 												<reference key="NSControlView" ref="181462871"/>
 												<object class="NSColor" key="NSBackgroundColor" id="130633971">
@@ -239,7 +240,7 @@
 											<object class="NSTextFieldCell" key="NSCell" id="546963343">
 												<int key="NSCellFlags">-1804468671</int>
 												<int key="NSCellFlags2">272630784</int>
-												<string key="NSContents"/>
+												<string key="NSContents">vtx</string>
 												<reference key="NSSupport" ref="673925191"/>
 												<reference key="NSControlView" ref="525144916"/>
 												<bool key="NSDrawsBackground">YES</bool>
@@ -654,10 +655,10 @@
 							</object>
 							<string key="NSFrameSize">{599, 530}</string>
 							<reference key="NSSuperview" ref="568628114"/>
-							<int key="NSDividerStyle">3</int>
 						</object>
 					</object>
 					<string key="NSFrameSize">{599, 530}</string>
+					<reference key="NSSuperview"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
 				<string key="NSMinSize">{94, 108}</string>
@@ -1302,9 +1303,9 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{144, 382}, {599, 530}}</string>
+					<string>{{144, 326}, {599, 530}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{144, 382}, {599, 530}}</string>
+					<string>{{144, 326}, {599, 530}}</string>
 					<integer value="1"/>
 					<string>{{201, 387}, {507, 413}}</string>
 					<integer value="1"/>
@@ -1376,6 +1377,14 @@
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">VertexDocument.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">VertexDocument</string>
+					<string key="superclassName">NSDocument</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBUserSource</string>
 						<string key="minorKey"/>
 					</object>
@@ -1386,33 +1395,6 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">IKImageView</string>
 					<string key="superclassName">NSView</string>
-					<object class="NSMutableDictionary" key="actions">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>crop:</string>
-							<string>flipImageHorizontal:</string>
-							<string>flipImageVertical:</string>
-							<string>rotateImageLeft:</string>
-							<string>rotateImageRight:</string>
-							<string>zoomImageToActualSize:</string>
-							<string>zoomImageToFit:</string>
-							<string>zoomIn:</string>
-							<string>zoomOut:</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-						</object>
-					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">ImageKit.framework/Headers/IKImageView.h</string>
@@ -1824,13 +1806,6 @@
 					<string key="className">NSObject</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">ImageKit.framework/Headers/IKSaveOptions.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">ImageKit.framework/Headers/ImageKitDeprecated.h</string>
 					</object>
 				</object>
@@ -1888,13 +1863,6 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">QuartzFilters.framework/Headers/QuartzFilterManager.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">QuickLookUI.framework/Headers/QLPreviewPanel.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -2032,9 +2000,10 @@
 			</object>
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
+		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
-			<integer value="1060" key="NS.object.0"/>
+			<integer value="1050" key="NS.object.0"/>
 		</object>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDevelopmentDependencies">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.InterfaceBuilder3</string>
@@ -2043,5 +2012,20 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<string key="IBDocument.LastKnownRelativeProjectPath">../VertexHelper.xcodeproj</string>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
+		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
+			<bool key="EncodedWithXMLCoder">YES</bool>
+			<object class="NSArray" key="dict.sortedKeys">
+				<bool key="EncodedWithXMLCoder">YES</bool>
+				<string>NSMenuCheckmark</string>
+				<string>NSMenuMixedState</string>
+				<string>NSSwitch</string>
+			</object>
+			<object class="NSMutableArray" key="dict.values">
+				<bool key="EncodedWithXMLCoder">YES</bool>
+				<string>{9, 8}</string>
+				<string>{7, 2}</string>
+				<string>{15, 15}</string>
+			</object>
+		</object>
 	</data>
 </archive>
