@@ -130,12 +130,13 @@
 	CGContextStrokePath(context);
 }
 
--(CALayer *)hitTest:(NSPoint)aPoint {
+-(CALayer *)hitTest:(CGPoint)aPoint {
 	//NSLog(@"hittest x: %.f, y: %.f", aPoint.x, aPoint.y);
 	// don't allow any mouse clicks for subviews in this view
-	
+    NSPoint hitPoint = NSPointFromCGPoint(aPoint);
+    
 	if (owner.currentToolMode == IKToolModeAnnotate) {
-		NSPoint p = [owner convertViewPointToImagePoint:aPoint];
+		NSPoint p = [owner convertViewPointToImagePoint:hitPoint];
 		//NSLog(@"hittest x: %.f, y: %.f", p.x, p.y);
 		NSSize imageSize = [owner imageSize];
 		NSPoint relativePoint = NSMakePoint(0, 0);
@@ -156,7 +157,7 @@
 		
 	}
 	
-	if(NSPointInRect(aPoint,[self bounds])) {
+	if(NSPointInRect(hitPoint, NSRectFromCGRect([self bounds]))) {
 		return self;
 	} else {
 		return nil;    
