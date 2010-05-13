@@ -5,10 +5,11 @@
 //  Created by Johannes Fahrenkrug on 20.02.10.
 //  Copyright 2010 Springenwerk. All rights reserved.
 //
+//	Concave Polygons Bug Fixed by Ivan Bastidas on 09/05/2010.
 
 #import "ImageViewGridLayer.h"
 #import "VertexDocument.h"
-
+#define RAD_TO_DEG(rad) ( (180.0 * (rad)) / M_PI )
 // Thanks to Bill Dudney (http://bill.dudney.net/roller/objc/entry/nscolor_cgcolorref)
 @interface NSColor(CGColor)
 - (CGColorRef)CGColor;
@@ -30,6 +31,7 @@
 @implementation ImageViewGridLayer
 
 @synthesize owner, document, rows, cols;
+
 
 // -------------------------------------------------------------------------
 //	init
@@ -152,7 +154,25 @@
 			relativePoint.x = (p.x - ((currentCol - 1) * colWidth)) - (colWidth / 2);
 			relativePoint.y = (p.y - ((currentRow - 1) * rowHeight)) - (rowHeight / 2);
 			
-			[document addPoint:relativePoint forRow:currentRow col:currentCol];
+			NSMutableArray *points = [[document.pointMatrix objectAtIndex:(currentRow - 1)] objectAtIndex:(currentCol - 1)];
+			if ([points count]>1 ) {
+				
+			NSPoint point3 = [[points objectAtIndex:[points count]-2] pointValue];
+			NSPoint point2 = [[points objectAtIndex:[points count]-1] pointValue];
+			NSPoint point1 = [[points objectAtIndex:0] pointValue];
+			
+				if ([self  calcWithPoint:point1 secondPoint:point2 thirdPoint:relativePoint fourthPoint:point3]) {
+					[document addPoint:relativePoint forRow:currentRow col:currentCol];
+				}else {
+					return nil; 
+				}
+
+			
+			}else {
+				[document addPoint:relativePoint forRow:currentRow col:currentCol];
+			}
+
+			 
 		}
 		
 	}
@@ -162,6 +182,48 @@
 	} else {
 		return nil;    
 	}
+}
+-(BOOL) calcWithPoint:(CGPoint)point1 secondPoint: (CGPoint)point2 thirdPoint:(CGPoint)point3 fourthPoint: (CGPoint)point4{
+	double ang1 = RAD_TO_DEG(atan2(point2.y-point1.y,point2.x - point1.x));
+	//NSLog(@"Angulo 1 = %1.2f",ang1);
+	if (ang1<0) {
+		ang1 = 180+ang1;
+	}
+	//NSLog(@"Transformado = %1.2f",ang1);
+	double ang2 = RAD_TO_DEG(atan2(point3.y-point2.y,point3.x - point2.x));
+	
+	//NSLog(@"Angulo 2 = %1.2f",ang2);
+	if (ang2>=0) {
+		ang2 = 180-ang2;
+	}else {
+		ang2 = (ang2+180) * -1;
+	}
+	//NSLog(@"Transformado = %1.2f",ang2);
+	
+	double total = ang1+ang2;
+	
+	
+	double ang3 = RAD_TO_DEG(atan2(point2.y-point4.y,point2.x - point4.x));
+	//NSLog(@"Angulo 3 = %1.2f",ang3);
+	if (ang3<0) {
+		ang3 = 180+ang3;
+		ang2 = RAD_TO_DEG(atan2(point3.y-point2.y,point3.x - point2.x))*-1;
+	}
+	
+	//NSLog(@"Transformado = %1.2f",ang3);
+	
+	double total2 = ang2+ang3;
+	//NSLog(@"Angulo Interno Suma = %1.2f",total);
+	//NSLog(@"Angulo Interno = %1.2f",total2);
+	if ((total <= 180 && total>=0) && (total2 <= 180 && total2>=0)) {
+
+		return YES;
+	
+	}else {
+		return NO;
+	}
+	
+	
 }
 
 - (void)dealloc
