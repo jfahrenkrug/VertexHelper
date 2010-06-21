@@ -22,6 +22,8 @@
 	IBOutlet NSPopUpButton *typePopUpButton;
 	IBOutlet NSPopUpButton *stylePopUpButton;
 	
+	IBOutlet NSButton *scanButton;
+	
 	ImageViewGridLayer *gridLayer;
 	// each row has columns, each column has points
 	NSMutableArray *pointMatrix;

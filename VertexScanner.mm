@@ -6,7 +6,7 @@
  *
  */
 
-#define VERBOSE
+//#define VERBOSE
 
 #ifdef VERBOSE
 #import <Foundation/Foundation.h>
@@ -66,6 +66,9 @@ static Vec2 normalize(const Vec2 &a)
 
 static vector<Vec2> removeDuplicates(vector<Vec2> &points)
 {
+	if(points.size() <= 0)
+		return points;
+	
 	vector<Vec2> result;
 	Vec2 last = *(points.end()-1);
 	for(int i=0; i<points.size(); i++)
@@ -90,6 +93,9 @@ inline bool isConvex(float sineOfAngle)
 
 static vector<Vec2> makeConvex(vector<Vec2> &points)
 {
+	if(points.size() <= 0)
+		return points;
+
 	vector<Vec2> convex;
 	convex.push_back(points[0]);
 	convex.push_back(points[1]);

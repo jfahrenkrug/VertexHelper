@@ -49,6 +49,7 @@
 	[gridLayer setNeedsDisplay];
 	
 	[imageView setOverlay:gridLayer forType:IKOverlayTypeImage];
+	[scanButton setEnabled:NO];
 }
 
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
@@ -84,6 +85,10 @@
 	int rows = [[rowsTextField stringValue] intValue];
 	int cols = [[colsTextField stringValue] intValue];
 	
+	BOOL enabled = (rows > 0 && cols > 0);
+	NSLog(@"Matrix: %d %d", rows, cols);
+	[scanButton setEnabled:enabled];
+	
 	
 	if (rows <= 50 && cols <= 50 && (rows != gridLayer.rows || cols != gridLayer.cols)) {
 		//reset our array
@@ -104,13 +109,21 @@
 }
 - (IBAction)scanImage:(id)sender
 {
+	NSLog(@"Image properties: %@", [imageView imageProperties]);
 	[self updateGrid:sender];
+
 	CGImageRef img = [imageView image];
 	size_t width = CGImageGetWidth(img);
 	size_t height = CGImageGetHeight(img);
 	size_t pitch = CGImageGetBytesPerRow(img);
-	CFDataRef dataRef = CGDataProviderCopyData(CGImageGetDataProvider(img));
-	const UInt8 *data = CFDataGetBytePtr(dataRef);
+	
+	UInt8 *bits = (UInt8*)malloc(width * height * 4);
+	CGContextRef textureContext = CGBitmapContextCreate(bits, width, height, 8, width*4,
+													  CGImageGetColorSpace(img), kCGImageAlphaPremultipliedLast);
+	CGContextDrawImage(textureContext, CGRectMake(0.0, 0.0, (CGFloat)width, (CGFloat)height), img);
+	CGContextRelease(textureContext);
+	
+	const UInt8 *data = bits;
 	int cellWidth = (width / gridLayer.cols);
 	int cellHeight = (height / gridLayer.rows);
 	
@@ -127,7 +140,7 @@
 			// so data will point to the last row
 			cell.data = data+(height-1)*pitch;
 			// also offset it by the coordinates of the cell
-			cell.data += (cx*cellWidth*4)+(cy*cellHeight*pitch);
+			cell.data += (cx*cellWidth*4)+(cy*cellHeight*(-pitch));
 			Vec2Array points;
 			findPoints(&cell, &points);
 			if(points.count > 0)
@@ -142,8 +155,11 @@
 					[arr addObject:[NSValue valueWithPoint:NSMakePoint(p.x, p.y)]];
 				}
 			}
+			if(points.points)
+				free(points.points);
 		}
 	}
+	free(bits);
 	[gridLayer setNeedsDisplay];
 	[self updateResultTextField];
 }

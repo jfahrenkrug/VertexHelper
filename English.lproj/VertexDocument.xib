@@ -21,7 +21,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="100023"/>
+			<integer value="5"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -174,7 +174,7 @@
 											<string key="NSFrameSize">{599, 300}</string>
 											<reference key="NSSuperview" ref="808025513"/>
 											<bool key="NSViewIsLayerTreeHost">YES</bool>
-											<float key="zoomFactor">0.18125000596046448</float>
+											<float key="zoomFactor">1</float>
 											<float key="rotationAngle">0.0</float>
 											<string key="currentToolMode">IKToolModeNone</string>
 											<bool key="autoresizes">NO</bool>
@@ -202,7 +202,7 @@
 										<object class="NSButton" id="209450221">
 											<reference key="NSNextResponder" ref="190226495"/>
 											<int key="NSvFlags">268</int>
-											<string key="NSFrame">{{109, 4}, {118, 25}}</string>
+											<string key="NSFrame">{{90, 4}, {137, 25}}</string>
 											<reference key="NSSuperview" ref="190226495"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="902948351">
@@ -463,7 +463,7 @@
 																	<string>public.url</string>
 																</object>
 															</object>
-															<string key="NSFrameSize">{326, 28}</string>
+															<string key="NSFrame">{{0, 14}, {326, 14}}</string>
 															<reference key="NSSuperview" ref="246688413"/>
 															<object class="NSTextContainer" key="NSTextContainer" id="728819784">
 																<object class="NSLayoutManager" key="NSLayoutManager">
@@ -858,6 +858,14 @@
 						<reference key="destination" ref="209450221"/>
 					</object>
 					<int key="connectionID">100093</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">scanButton</string>
+						<reference key="source" ref="512844837"/>
+						<reference key="destination" ref="209450221"/>
+					</object>
+					<int key="connectionID">100094</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1385,7 +1393,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">100093</int>
+			<int key="maxID">100094</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1418,6 +1426,7 @@
 							<string>imageView</string>
 							<string>resultTextView</string>
 							<string>rowsTextField</string>
+							<string>scanButton</string>
 							<string>stylePopUpButton</string>
 							<string>typePopUpButton</string>
 							<string>variableTextField</string>
@@ -1428,6 +1437,7 @@
 							<string>IKImageView</string>
 							<string>NSTextView</string>
 							<string>NSTextField</string>
+							<string>NSButton</string>
 							<string>NSPopUpButton</string>
 							<string>NSPopUpButton</string>
 							<string>NSTextField</string>
