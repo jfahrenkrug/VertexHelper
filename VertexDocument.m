@@ -7,6 +7,7 @@
 //
 
 #import "VertexDocument.h"
+#import "VertexScanner.h"
 
 #define VHTYPE_PURE		0
 #define VHTYPE_BOX2D	1
@@ -37,7 +38,7 @@
 {
     [super windowControllerDidLoadNib:aController];
 	
-	[imageView setImageWithURL:	[NSURL URLWithString:[NSString stringWithFormat:@"file://%@", [[NSBundle mainBundle] pathForImageResource:@"drop_sprite.png"]]]];
+	[imageView setImageWithURL:	[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForImageResource:@"drop_sprite.png"]]];
 	[imageView setCurrentToolMode: IKToolModeMove];
 	[imageView setDoubleClickOpensImageEditPanel:NO];	
 	
@@ -100,6 +101,51 @@
 		[gridLayer setNeedsDisplay];
 		[self updateResultTextField];
 	}
+}
+- (IBAction)scanImage:(id)sender
+{
+	[self updateGrid:sender];
+	CGImageRef img = [imageView image];
+	size_t width = CGImageGetWidth(img);
+	size_t height = CGImageGetHeight(img);
+	size_t pitch = CGImageGetBytesPerRow(img);
+	CFDataRef dataRef = CGDataProviderCopyData(CGImageGetDataProvider(img));
+	const UInt8 *data = CFDataGetBytePtr(dataRef);
+	int cellWidth = (width / gridLayer.cols);
+	int cellHeight = (height / gridLayer.rows);
+	
+	for(int cy=0; cy<[pointMatrix count]; cy++)
+	{
+		NSArray *cells = [pointMatrix objectAtIndex:cy];
+		for(int cx=0; cx<[cells count]; cx++)
+		{
+			ImageDesc cell;
+			cell.width = cellWidth;
+			cell.height = cellHeight;
+			// the CGImage is a bottom-up image
+			cell.pitch = -pitch;
+			// so data will point to the last row
+			cell.data = data+(height-1)*pitch;
+			// also offset it by the coordinates of the cell
+			cell.data += (cx*cellWidth*4)+(cy*cellHeight*pitch);
+			Vec2Array points;
+			findPoints(&cell, &points);
+			if(points.count > 0)
+			{
+				NSMutableArray *arr = [cells objectAtIndex: cx];
+				[arr removeAllObjects];
+				for(int i=0; i<points.count; i++)
+				{
+					Vec2 p = points.points[i];
+					p.x -= cellWidth*0.5f;
+					p.y -= cellHeight*0.5f;
+					[arr addObject:[NSValue valueWithPoint:NSMakePoint(p.x, p.y)]];
+				}
+			}
+		}
+	}
+	[gridLayer setNeedsDisplay];
+	[self updateResultTextField];
 }
 
 - (IBAction)updateOutput:(id)sender

@@ -19,6 +19,7 @@
 		8F29AD51112F509600459CEB /* ImageViewGridLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F29AD50112F509600459CEB /* ImageViewGridLayer.m */; };
 		8F7B77921136C35800DE53AE /* drop_sprite.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F7B77911136C35800DE53AE /* drop_sprite.png */; };
 		8F7B77F51136F58400DE53AE /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 8F7B77F41136F58400DE53AE /* icon.icns */; };
+		E0E6CFE411CF660000DED378 /* VertexScanner.mm in Sources */ = {isa = PBXBuildFile; fileRef = E0E6CFE311CF660000DED378 /* VertexScanner.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,8 @@
 		8F29AD50112F509600459CEB /* ImageViewGridLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageViewGridLayer.m; sourceTree = "<group>"; };
 		8F7B77911136C35800DE53AE /* drop_sprite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = drop_sprite.png; sourceTree = "<group>"; };
 		8F7B77F41136F58400DE53AE /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
+		E0E6CFE211CF660000DED378 /* VertexScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VertexScanner.h; sourceTree = "<group>"; };
+		E0E6CFE311CF660000DED378 /* VertexScanner.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VertexScanner.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +104,8 @@
 		2A37F4ABFDCFA73011CA2CEA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				E0E6CFE211CF660000DED378 /* VertexScanner.h */,
+				E0E6CFE311CF660000DED378 /* VertexScanner.mm */,
 				8F29AD4F112F509600459CEB /* ImageViewGridLayer.h */,
 				8F29AD50112F509600459CEB /* ImageViewGridLayer.m */,
 				2A37F4AEFDCFA73011CA2CEA /* VertexDocument.h */,
@@ -203,6 +208,7 @@
 				8D15AC310486D014006FF6A4 /* VertexDocument.m in Sources */,
 				8D15AC320486D014006FF6A4 /* main.m in Sources */,
 				8F29AD51112F509600459CEB /* ImageViewGridLayer.m in Sources */,
+				E0E6CFE411CF660000DED378 /* VertexScanner.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

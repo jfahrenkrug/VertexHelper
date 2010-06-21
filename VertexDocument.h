@@ -31,6 +31,8 @@
 - (IBAction)makeAnnotatable:(id)sender;
 - (IBAction)updateOutput:(id)sender;
 
+- (IBAction)scanImage:(id)sender;
+
 - (void)addPoint:(NSPoint)aPoint forRow:(int)aRow col:(int)aCol;
 - (void)updateResultTextField;
 
