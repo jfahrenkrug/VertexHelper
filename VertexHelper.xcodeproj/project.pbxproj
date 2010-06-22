@@ -19,7 +19,12 @@
 		8F29AD51112F509600459CEB /* ImageViewGridLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F29AD50112F509600459CEB /* ImageViewGridLayer.m */; };
 		8F7B77921136C35800DE53AE /* drop_sprite.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F7B77911136C35800DE53AE /* drop_sprite.png */; };
 		8F7B77F51136F58400DE53AE /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 8F7B77F41136F58400DE53AE /* icon.icns */; };
-		E0E6CFE411CF660000DED378 /* VertexScanner.mm in Sources */ = {isa = PBXBuildFile; fileRef = E0E6CFE311CF660000DED378 /* VertexScanner.mm */; };
+		E0E6CFE411CF660000DED378 /* VertexScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0E6CFE311CF660000DED378 /* VertexScanner.cpp */; };
+		E0E6D04A11CFB95100DED378 /* VertexScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0E6CFE311CF660000DED378 /* VertexScanner.cpp */; };
+		E0E6D04F11CFB99A00DED378 /* VertexScannerMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0E6D04D11CFB98800DED378 /* VertexScannerMain.cpp */; };
+		E0E6D05211CFBA1100DED378 /* PNGLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0E6D05111CFBA1100DED378 /* PNGLoader.cpp */; };
+		E0E6D12B11CFC73800DED378 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F29ACF3112EC88300459CEB /* Quartz.framework */; };
+		E0E6D12C11CFC73800DED378 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F29AD45112F4FA800459CEB /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,7 +49,11 @@
 		8F7B77911136C35800DE53AE /* drop_sprite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = drop_sprite.png; sourceTree = "<group>"; };
 		8F7B77F41136F58400DE53AE /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
 		E0E6CFE211CF660000DED378 /* VertexScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VertexScanner.h; sourceTree = "<group>"; };
-		E0E6CFE311CF660000DED378 /* VertexScanner.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VertexScanner.mm; sourceTree = "<group>"; };
+		E0E6CFE311CF660000DED378 /* VertexScanner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VertexScanner.cpp; sourceTree = "<group>"; };
+		E0E6D03F11CFB7E400DED378 /* VertexScanner */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = VertexScanner; sourceTree = BUILT_PRODUCTS_DIR; };
+		E0E6D04D11CFB98800DED378 /* VertexScannerMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VertexScannerMain.cpp; sourceTree = "<group>"; };
+		E0E6D05011CFBA1100DED378 /* PNGLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNGLoader.h; sourceTree = "<group>"; };
+		E0E6D05111CFBA1100DED378 /* PNGLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PNGLoader.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +64,15 @@
 				8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */,
 				8F29ACF4112EC88300459CEB /* Quartz.framework in Frameworks */,
 				8F29AD46112F4FA800459CEB /* QuartzCore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E0E6D03D11CFB7E400DED378 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E0E6D12B11CFC73800DED378 /* Quartz.framework in Frameworks */,
+				E0E6D12C11CFC73800DED378 /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,6 +103,7 @@
 			isa = PBXGroup;
 			children = (
 				8D15AC370486D014006FF6A4 /* VertexHelper.app */,
+				E0E6D03F11CFB7E400DED378 /* VertexScanner */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -92,6 +111,7 @@
 		2A37F4AAFDCFA73011CA2CEA /* VertexHelper */ = {
 			isa = PBXGroup;
 			children = (
+				E0E6D04C11CFB96100DED378 /* CommandLine */,
 				2A37F4ABFDCFA73011CA2CEA /* Classes */,
 				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
@@ -105,7 +125,7 @@
 			isa = PBXGroup;
 			children = (
 				E0E6CFE211CF660000DED378 /* VertexScanner.h */,
-				E0E6CFE311CF660000DED378 /* VertexScanner.mm */,
+				E0E6CFE311CF660000DED378 /* VertexScanner.cpp */,
 				8F29AD4F112F509600459CEB /* ImageViewGridLayer.h */,
 				8F29AD50112F509600459CEB /* ImageViewGridLayer.m */,
 				2A37F4AEFDCFA73011CA2CEA /* VertexDocument.h */,
@@ -146,6 +166,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		E0E6D04C11CFB96100DED378 /* CommandLine */ = {
+			isa = PBXGroup;
+			children = (
+				E0E6D04D11CFB98800DED378 /* VertexScannerMain.cpp */,
+				E0E6D05011CFBA1100DED378 /* PNGLoader.h */,
+				E0E6D05111CFBA1100DED378 /* PNGLoader.cpp */,
+			);
+			name = CommandLine;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -167,6 +197,23 @@
 			productReference = 8D15AC370486D014006FF6A4 /* VertexHelper.app */;
 			productType = "com.apple.product-type.application";
 		};
+		E0E6D03E11CFB7E400DED378 /* VertexScanner */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E0E6D04911CFB82800DED378 /* Build configuration list for PBXNativeTarget "VertexScanner" */;
+			buildPhases = (
+				E0E6D03C11CFB7E400DED378 /* Sources */,
+				E0E6D03D11CFB7E400DED378 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			comments = "Command-line tool target";
+			dependencies = (
+			);
+			name = VertexScanner;
+			productName = VertexScanner;
+			productReference = E0E6D03F11CFB7E400DED378 /* VertexScanner */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -180,6 +227,7 @@
 			projectRoot = "";
 			targets = (
 				8D15AC270486D014006FF6A4 /* VertexHelper */,
+				E0E6D03E11CFB7E400DED378 /* VertexScanner */,
 			);
 		};
 /* End PBXProject section */
@@ -208,7 +256,17 @@
 				8D15AC310486D014006FF6A4 /* VertexDocument.m in Sources */,
 				8D15AC320486D014006FF6A4 /* main.m in Sources */,
 				8F29AD51112F509600459CEB /* ImageViewGridLayer.m in Sources */,
-				E0E6CFE411CF660000DED378 /* VertexScanner.mm in Sources */,
+				E0E6CFE411CF660000DED378 /* VertexScanner.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E0E6D03C11CFB7E400DED378 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E0E6D04F11CFB99A00DED378 /* VertexScannerMain.cpp in Sources */,
+				E0E6D04A11CFB95100DED378 /* VertexScanner.cpp in Sources */,
+				E0E6D05211CFBA1100DED378 /* PNGLoader.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,6 +367,50 @@
 			};
 			name = Release;
 		};
+		E0E6D04111CFB7E500DED378 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				INSTALL_PATH = /usr/local/bin;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = VertexScanner;
+			};
+			name = Debug;
+		};
+		E0E6D04211CFB7E500DED378 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				INSTALL_PATH = /usr/local/bin;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = VertexScanner;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -326,6 +428,15 @@
 			buildConfigurations = (
 				C05733CC08A9546B00998B17 /* Debug */,
 				C05733CD08A9546B00998B17 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E0E6D04911CFB82800DED378 /* Build configuration list for PBXNativeTarget "VertexScanner" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E0E6D04111CFB7E500DED378 /* Debug */,
+				E0E6D04211CFB7E500DED378 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
