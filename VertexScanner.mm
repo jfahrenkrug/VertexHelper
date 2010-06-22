@@ -6,12 +6,6 @@
  *
  */
 
-//#define VERBOSE
-
-#ifdef VERBOSE
-#import <Foundation/Foundation.h>
-#endif
-
 #include "VertexScanner.h"
 #include <math.h>
 #include <vector>
@@ -130,18 +124,12 @@ static vector<Vec2> makeConvex(vector<Vec2> &points)
 			}
 		}
 		convex.push_back(current);
-#ifdef VERBOSE
-		NSLog(@"%f lastIn: (%f %f) currentIn: (%f %f)", cross, lastIn.x, lastIn.y, currentIn.x, currentIn.y);
-#endif
 		lastIn = currentIn;
 		last = current;
 	}
 	// please note that this takes advantage of the findPoints algorithm
 	// the points are always CCW, and the top and the bottom are always OK
 	// because of the scanning
-#ifdef VERBOSE
-	NSLog(@"Before: %d After: %d", points.size(), convex.size());
-#endif
 	return convex;
 }
 

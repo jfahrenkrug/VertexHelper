@@ -8,6 +8,7 @@
 
 #import "VertexDocument.h"
 #import "VertexScanner.h"
+#import <AppKit/AppKit.h>
 
 #define VHTYPE_PURE		0
 #define VHTYPE_BOX2D	1
@@ -15,6 +16,12 @@
 
 #define VHSTYLE_ASSIGN	0
 #define VHSTYLE_INIT	1
+
+@interface VertexDocument(PrivateMethods)
+
+- (void)refreshScanParameters;
+
+@end
 
 @implementation VertexDocument
 
@@ -40,7 +47,7 @@
 	
 	[imageView setImageWithURL:	[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForImageResource:@"drop_sprite.png"]]];
 	[imageView setCurrentToolMode: IKToolModeMove];
-	[imageView setDoubleClickOpensImageEditPanel:NO];	
+	[imageView setDoubleClickOpensImageEditPanel:NO];
 	
 	gridLayer = [ImageViewGridLayer layer];
 	gridLayer.owner = imageView;
@@ -49,7 +56,15 @@
 	[gridLayer setNeedsDisplay];
 	
 	[imageView setOverlay:gridLayer forType:IKOverlayTypeImage];
-	[scanButton setEnabled:NO];
+	imageView.supportsDragAndDrop = NO;
+	
+	NSWindow *window = [aController window];
+	[window registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
+	[window setDelegate:self];
+	
+	filePath = nil;
+	gridOK = NO;
+	[self refreshScanParameters];
 }
 
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
@@ -80,14 +95,60 @@
     return YES;
 }
 
+- (void)refreshScanParameters
+{
+	BOOL enabled = gridOK && filePath != nil;
+	[scanButton setEnabled:enabled];
+	if(enabled) {
+		int rows = [[rowsTextField stringValue] intValue];
+		int cols = [[colsTextField stringValue] intValue];
+		[commandLineField setStringValue:[NSString stringWithFormat:@"VertexScanner -r %d -c %d %@",
+										  rows, cols, filePath]];
+	} else {
+		[commandLineField setStringValue:@""];
+	}
+
+}
+
+- (NSDragOperation)draggingEntered:(id < NSDraggingInfo >)sender
+{
+	return NSDragOperationGeneric;
+}
+
+- (BOOL)prepareForDragOperation:(id < NSDraggingInfo >)sender
+{
+	NSPasteboard *pboard = [sender draggingPasteboard];
+	if([[pboard types] containsObject:NSFilenamesPboardType])
+	{
+		NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
+		return [files count] == 1;
+	}
+	return YES;
+}
+
+- (BOOL)performDragOperation:(id <NSDraggingInfo>)sender
+{
+	NSPasteboard *pboard = [sender draggingPasteboard];
+	if([[pboard types] containsObject:NSFilenamesPboardType])
+	{
+		NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
+		if([files count] == 1)
+		{
+			filePath = [files objectAtIndex:0];
+			[imageView setImageWithURL:[NSURL fileURLWithPath:filePath]];
+			[self refreshScanParameters];
+		}
+	}
+	return YES;
+}
+
 - (IBAction)updateGrid:(id)sender 
 {
 	int rows = [[rowsTextField stringValue] intValue];
 	int cols = [[colsTextField stringValue] intValue];
-	
-	BOOL enabled = (rows > 0 && cols > 0);
-	NSLog(@"Matrix: %d %d", rows, cols);
-	[scanButton setEnabled:enabled];
+
+	gridOK = rows > 0 && cols > 0;
+	[self refreshScanParameters];
 	
 	
 	if (rows <= 50 && cols <= 50 && (rows != gridLayer.rows || cols != gridLayer.cols)) {
@@ -107,21 +168,24 @@
 		[self updateResultTextField];
 	}
 }
+
 - (IBAction)scanImage:(id)sender
 {
-	NSLog(@"Image properties: %@", [imageView imageProperties]);
 	[self updateGrid:sender];
 
 	CGImageRef img = [imageView image];
 	size_t width = CGImageGetWidth(img);
 	size_t height = CGImageGetHeight(img);
-	size_t pitch = CGImageGetBytesPerRow(img);
+	size_t pitch = width*4;
 	
 	UInt8 *bits = (UInt8*)malloc(width * height * 4);
-	CGContextRef textureContext = CGBitmapContextCreate(bits, width, height, 8, width*4,
+	memset(bits, 0, width*height*4);
+	CGContextRef bitmapContext = CGBitmapContextCreate(bits, width, height, 8, pitch,
 													  CGImageGetColorSpace(img), kCGImageAlphaPremultipliedLast);
-	CGContextDrawImage(textureContext, CGRectMake(0.0, 0.0, (CGFloat)width, (CGFloat)height), img);
-	CGContextRelease(textureContext);
+	CGContextTranslateCTM(bitmapContext, 0, height);
+	CGContextScaleCTM(bitmapContext, 1.0, -1.0);
+	CGContextDrawImage(bitmapContext, CGRectMake(0.0, 0.0, (CGFloat)width, (CGFloat)height), img);
+	CGContextRelease(bitmapContext);
 	
 	const UInt8 *data = bits;
 	int cellWidth = (width / gridLayer.cols);
@@ -136,11 +200,11 @@
 			cell.width = cellWidth;
 			cell.height = cellHeight;
 			// the CGImage is a bottom-up image
-			cell.pitch = -pitch;
+			cell.pitch = pitch;
 			// so data will point to the last row
-			cell.data = data+(height-1)*pitch;
+			cell.data = data;
 			// also offset it by the coordinates of the cell
-			cell.data += (cx*cellWidth*4)+(cy*cellHeight*(-pitch));
+			cell.data += (cx*cellWidth*4)+(cy*cellHeight*pitch);
 			Vec2Array points;
 			findPoints(&cell, &points);
 			if(points.count > 0)

@@ -23,10 +23,14 @@
 	IBOutlet NSPopUpButton *stylePopUpButton;
 	
 	IBOutlet NSButton *scanButton;
+	IBOutlet NSTextField *commandLineField;
 	
 	ImageViewGridLayer *gridLayer;
 	// each row has columns, each column has points
 	NSMutableArray *pointMatrix;
+	NSString *filePath;
+	BOOL gridOK;
+	
 }
 
 - (IBAction)updateGrid:(id)sender;
