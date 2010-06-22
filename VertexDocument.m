@@ -17,12 +17,6 @@
 #define VHSTYLE_ASSIGN	0
 #define VHSTYLE_INIT	1
 
-@interface VertexDocument(PrivateMethods)
-
-- (void)refreshScanParameters;
-
-@end
-
 @implementation VertexDocument
 
 @synthesize pointMatrix;
@@ -64,7 +58,6 @@
 	
 	filePath = nil;
 	gridOK = NO;
-	[self refreshScanParameters];
 }
 
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
@@ -95,27 +88,16 @@
     return YES;
 }
 
-- (void)refreshScanParameters
+- (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender
 {
-	BOOL enabled = gridOK && filePath != nil;
-	[scanButton setEnabled:enabled];
-	if(enabled) {
-		int rows = [[rowsTextField stringValue] intValue];
-		int cols = [[colsTextField stringValue] intValue];
-		[commandLineField setStringValue:[NSString stringWithFormat:@"VertexScanner -r %d -c %d %@",
-										  rows, cols, filePath]];
-	} else {
-		[commandLineField setStringValue:@""];
+	if ([NSImage canInitWithPasteboard:[sender draggingPasteboard]]) {
+		return NSDragOperationCopy; //accept data
 	}
-
+	
+    return NSDragOperationNone;
 }
 
-- (NSDragOperation)draggingEntered:(id < NSDraggingInfo >)sender
-{
-	return NSDragOperationGeneric;
-}
-
-- (BOOL)prepareForDragOperation:(id < NSDraggingInfo >)sender
+- (BOOL)prepareForDragOperation:(id <NSDraggingInfo>)sender
 {
 	NSPasteboard *pboard = [sender draggingPasteboard];
 	if([[pboard types] containsObject:NSFilenamesPboardType])
@@ -136,7 +118,6 @@
 		{
 			filePath = [files objectAtIndex:0];
 			[imageView setImageWithURL:[NSURL fileURLWithPath:filePath]];
-			[self refreshScanParameters];
 		}
 	}
 	return YES;
@@ -148,7 +129,6 @@
 	int cols = [[colsTextField stringValue] intValue];
 
 	gridOK = rows > 0 && cols > 0;
-	[self refreshScanParameters];
 	
 	
 	if (rows <= 50 && cols <= 50 && (rows != gridLayer.rows || cols != gridLayer.cols)) {
