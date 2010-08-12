@@ -11,16 +11,74 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <string.h>
+#include <argp.h>
+
+static argp_option options[] =
+{
+	{ "cellWidth", 'x', NULL, "integer", NULL, "Width of cell" },
+	{ "cellHeight", 'y', NULL, "integer", NULL, "Height of cell" },
+	{ "rows", 'r', NULL, "integer", NULL, "Number of cell rows" },
+	{ "cols", 'c', NULL, "integer", NULL, "Number of cell columns" },
+	{ "help", 'h', NULL, NULL, NULL, "Print help" },
+	{ 0 }
+};
+
+static struct Options
+{
+	int cellWidth;
+	int cellHeight;
+	int rows;
+	int cols;
+	bool help;
+	char *name;
+};
+
+static error_t parseOpt(int key, char *arg, argp_state *state)
+{
+	Options *o = (Options*)state->input;
+	switch(key)
+	{
+		case 'h':
+			o->help = true;
+			break;
+		case 'x':
+			o->cellWidth = atoi(arg);
+			break;
+		case 'y':
+			o->cellHeight = atoi(arg);
+			break;
+		case 'r':
+			o->rows = atoi(arg);
+			break;
+		case 'c':
+			o->cols = atoi(arg);
+			break;
+		case ARGP_KEY_ARG:
+			o->name = arg;
+			break;
+		default:
+			return ARGP_ERR_UNKNOWN;
+	}
+	
+	return 0;
+}
+
+
+static argp argpDef = { options, parseOpt, "", "" };
+
 
 int main(int argc, char **argv)
 {
-	int cellWidth = -1;
-	int cellHeight = -1;
-	int rows = -1;
-	int cols = -1;
+	Options o;
+		
+	o.cellWidth = -1;
+	o.cellHeight = -1;
+	o.rows = -1;
+	o.cols = -1;
+	o.help = false;
+	o.name = NULL;
 	opterr = 0;
 	int c;
-	bool help = false;
 	
 	while((c = getopt(argc, argv, "x:y:r:c:h")) != -1)
 	{
@@ -63,16 +121,16 @@ int main(int argc, char **argv)
 	}
 	
 	ImageDesc img;
-	loadPNG(argv[optind], &img);
+	loadPNG(o.name, &img);
 	
-	if(cols > 0 && cellWidth <= 0)
-		cellWidth = img.width/cols;
-	if(cellWidth > 0 && cols <= 0)
-		cols = img.width/cellWidth;
-	if(rows > 0 && cellHeight <= 0)
-		cellHeight = img.height/rows;
-	if(cellHeight > 0 && rows <= 0)
-		rows = img.height/cellHeight;
+	if(o.cols > 0 && o.cellWidth <= 0)
+		o.cellWidth = img.width/o.cols;
+	if(o.cellWidth > 0 && cols <= 0)
+		o.cols = img.width/o.cellWidth;
+	if(o.rows > 0 && o.cellHeight <= 0)
+		o.cellHeight = img.height/o.rows;
+	if(o.cellHeight > 0 && rows <= 0)
+		o.rows = img.height/o.cellHeight;
 	
 	if(cellWidth*cols > img.width)
 	{

@@ -25,6 +25,9 @@
 	IBOutlet NSButton *scanButton;
 	IBOutlet NSTextField *commandLineField;
 	
+	IBOutlet NSSlider *angleSlider;
+	IBOutlet NSTextField *angleField;
+	
 	ImageViewGridLayer *gridLayer;
 	// each row has columns, each column has points
 	NSMutableArray *pointMatrix;
@@ -38,6 +41,9 @@
 - (IBAction)updateOutput:(id)sender;
 
 - (IBAction)scanImage:(id)sender;
+
+- (IBAction)angleSliderChanged:(NSSlider*)sender;
+- (IBAction)angleFieldChanged:(NSTextField*)sender;
 
 - (void)addPoint:(NSPoint)aPoint forRow:(int)aRow col:(int)aCol;
 - (void)updateResultTextField;

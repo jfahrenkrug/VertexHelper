@@ -3,7 +3,7 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
 		<string key="IBDocument.SystemVersion">10F569</string>
-		<string key="IBDocument.InterfaceBuilderVersion">762</string>
+		<string key="IBDocument.InterfaceBuilderVersion">788</string>
 		<string key="IBDocument.AppKitVersion">1038.29</string>
 		<string key="IBDocument.HIToolboxVersion">461.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
@@ -15,13 +15,13 @@
 			</object>
 			<object class="NSMutableArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>762</string>
+				<string>788</string>
 				<string>1.1</string>
 			</object>
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="100095"/>
+			<integer value="100023"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -199,19 +199,18 @@
 									<int key="NSvFlags">274</int>
 									<object class="NSMutableArray" key="NSSubviews">
 										<bool key="EncodedWithXMLCoder">YES</bool>
-										<object class="NSTextField" id="634502060">
+										<object class="NSTextField" id="604572153">
 											<reference key="NSNextResponder" ref="190226495"/>
-											<int key="NSvFlags">290</int>
-											<string key="NSFrame">{{236, 6}, {343, 22}}</string>
+											<int key="NSvFlags">268</int>
+											<string key="NSFrame">{{12, 6}, {34, 22}}</string>
 											<reference key="NSSuperview" ref="190226495"/>
 											<bool key="NSEnabled">YES</bool>
-											<object class="NSTextFieldCell" key="NSCell" id="122428049">
-												<int key="NSCellFlags">-2072904127</int>
+											<object class="NSTextFieldCell" key="NSCell" id="819631575">
+												<int key="NSCellFlags">-1804468671</int>
 												<int key="NSCellFlags2">272630784</int>
 												<string key="NSContents"/>
 												<reference key="NSSupport" ref="673925191"/>
-												<string key="NSPlaceholderString">VertexScanner command line</string>
-												<reference key="NSControlView" ref="634502060"/>
+												<reference key="NSControlView" ref="604572153"/>
 												<bool key="NSDrawsBackground">YES</bool>
 												<object class="NSColor" key="NSBackgroundColor" id="655330197">
 													<int key="NSColorSpace">6</int>
@@ -231,6 +230,46 @@
 														<bytes key="NSWhite">MAA</bytes>
 													</object>
 												</object>
+											</object>
+										</object>
+										<object class="NSSlider" id="336855673">
+											<reference key="NSNextResponder" ref="190226495"/>
+											<int key="NSvFlags">268</int>
+											<string key="NSFrame">{{54, 2}, {28, 30}}</string>
+											<reference key="NSSuperview" ref="190226495"/>
+											<bool key="NSEnabled">YES</bool>
+											<object class="NSSliderCell" key="NSCell" id="233619353">
+												<int key="NSCellFlags">67239424</int>
+												<int key="NSCellFlags2">0</int>
+												<string key="NSContents"/>
+												<reference key="NSControlView" ref="336855673"/>
+												<double key="NSMaxValue">180</double>
+												<double key="NSMinValue">0.0099999999999997868</double>
+												<double key="NSValue">5</double>
+												<double key="NSAltIncValue">0.0</double>
+												<int key="NSNumberOfTickMarks">0</int>
+												<int key="NSTickMarkPosition">1</int>
+												<bool key="NSAllowsTickMarkValuesOnly">YES</bool>
+												<bool key="NSVertical">NO</bool>
+												<int key="NSSliderType">1</int>
+											</object>
+										</object>
+										<object class="NSTextField" id="634502060">
+											<reference key="NSNextResponder" ref="190226495"/>
+											<int key="NSvFlags">290</int>
+											<string key="NSFrame">{{236, 6}, {343, 22}}</string>
+											<reference key="NSSuperview" ref="190226495"/>
+											<bool key="NSEnabled">YES</bool>
+											<object class="NSTextFieldCell" key="NSCell" id="122428049">
+												<int key="NSCellFlags">-2072904127</int>
+												<int key="NSCellFlags2">272630784</int>
+												<string key="NSContents"/>
+												<reference key="NSSupport" ref="673925191"/>
+												<string key="NSPlaceholderString">VertexScanner command line</string>
+												<reference key="NSControlView" ref="634502060"/>
+												<bool key="NSDrawsBackground">YES</bool>
+												<reference key="NSBackgroundColor" ref="655330197"/>
+												<reference key="NSTextColor" ref="428189095"/>
 											</object>
 										</object>
 										<object class="NSButton" id="209450221">
@@ -481,7 +520,7 @@
 																	<string>public.url</string>
 																</object>
 															</object>
-															<string key="NSFrameSize">{326, 9}</string>
+															<string key="NSFrame">{{0, -5}, {326, 14}}</string>
 															<reference key="NSSuperview" ref="246688413"/>
 															<object class="NSTextContainer" key="NSTextContainer" id="728819784">
 																<object class="NSLayoutManager" key="NSLayoutManager">
@@ -893,6 +932,38 @@
 					</object>
 					<int key="connectionID">100097</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">angleSlider</string>
+						<reference key="source" ref="512844837"/>
+						<reference key="destination" ref="336855673"/>
+					</object>
+					<int key="connectionID">100103</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">angleSliderChanged:</string>
+						<reference key="source" ref="512844837"/>
+						<reference key="destination" ref="336855673"/>
+					</object>
+					<int key="connectionID">100104</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">angleField</string>
+						<reference key="source" ref="512844837"/>
+						<reference key="destination" ref="604572153"/>
+					</object>
+					<int key="connectionID">100109</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">angleFieldChanged:</string>
+						<reference key="source" ref="512844837"/>
+						<reference key="destination" ref="604572153"/>
+					</object>
+					<int key="connectionID">100110</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -1042,6 +1113,8 @@
 							<reference ref="148885797"/>
 							<reference ref="110730408"/>
 							<reference ref="634502060"/>
+							<reference ref="336855673"/>
+							<reference ref="604572153"/>
 						</object>
 						<reference key="parent" ref="958765573"/>
 					</object>
@@ -1293,6 +1366,34 @@
 						<reference key="object" ref="122428049"/>
 						<reference key="parent" ref="634502060"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">100098</int>
+						<reference key="object" ref="336855673"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="233619353"/>
+						</object>
+						<reference key="parent" ref="190226495"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">100099</int>
+						<reference key="object" ref="233619353"/>
+						<reference key="parent" ref="336855673"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">100107</int>
+						<reference key="object" ref="604572153"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="819631575"/>
+						</object>
+						<reference key="parent" ref="190226495"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">100108</int>
+						<reference key="object" ref="819631575"/>
+						<reference key="parent" ref="604572153"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -1349,6 +1450,10 @@
 					<string>100092.IBPluginDependency</string>
 					<string>100095.IBPluginDependency</string>
 					<string>100096.IBPluginDependency</string>
+					<string>100098.IBPluginDependency</string>
+					<string>100099.IBPluginDependency</string>
+					<string>100107.IBPluginDependency</string>
+					<string>100108.IBPluginDependency</string>
 					<string>5.IBEditorWindowLastContentRect</string>
 					<string>5.IBPluginDependency</string>
 					<string>5.IBWindowTemplateEditedContentRect</string>
@@ -1411,9 +1516,13 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{379, 243}, {599, 540}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{379, 243}, {599, 540}}</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>{{184, 289}, {599, 540}}</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>{{184, 289}, {599, 540}}</string>
 					<integer value="1"/>
 					<string>{{201, 387}, {507, 413}}</string>
 					<integer value="1"/>
@@ -1438,7 +1547,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">100097</int>
+			<int key="maxID">100110</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1450,6 +1559,8 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>angleFieldChanged:</string>
+							<string>angleSliderChanged:</string>
 							<string>makeAnnotatable:</string>
 							<string>scanImage:</string>
 							<string>updateGrid:</string>
@@ -1457,16 +1568,59 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>NSTextField</string>
+							<string>NSSlider</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 						</object>
 					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>angleFieldChanged:</string>
+							<string>angleSliderChanged:</string>
+							<string>makeAnnotatable:</string>
+							<string>scanImage:</string>
+							<string>updateGrid:</string>
+							<string>updateOutput:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">angleFieldChanged:</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">angleSliderChanged:</string>
+								<string key="candidateClassName">NSSlider</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">makeAnnotatable:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">scanImage:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">updateGrid:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">updateOutput:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+						</object>
+					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>angleField</string>
+							<string>angleSlider</string>
 							<string>colsTextField</string>
 							<string>commandLineField</string>
 							<string>imageView</string>
@@ -1480,6 +1634,8 @@
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>NSTextField</string>
+							<string>NSSlider</string>
+							<string>NSTextField</string>
 							<string>NSTextField</string>
 							<string>IKImageView</string>
 							<string>NSTextView</string>
@@ -1488,6 +1644,70 @@
 							<string>NSPopUpButton</string>
 							<string>NSPopUpButton</string>
 							<string>NSTextField</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>angleField</string>
+							<string>angleSlider</string>
+							<string>colsTextField</string>
+							<string>commandLineField</string>
+							<string>imageView</string>
+							<string>resultTextView</string>
+							<string>rowsTextField</string>
+							<string>scanButton</string>
+							<string>stylePopUpButton</string>
+							<string>typePopUpButton</string>
+							<string>variableTextField</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">angleField</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">angleSlider</string>
+								<string key="candidateClassName">NSSlider</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">colsTextField</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">commandLineField</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">imageView</string>
+								<string key="candidateClassName">IKImageView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">resultTextView</string>
+								<string key="candidateClassName">NSTextView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">rowsTextField</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">scanButton</string>
+								<string key="candidateClassName">NSButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">stylePopUpButton</string>
+								<string key="candidateClassName">NSPopUpButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">typePopUpButton</string>
+								<string key="candidateClassName">NSPopUpButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">variableTextField</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -1619,6 +1839,45 @@
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>printDocument:</string>
+							<string>revertDocumentToSaved:</string>
+							<string>runPageLayout:</string>
+							<string>saveDocument:</string>
+							<string>saveDocumentAs:</string>
+							<string>saveDocumentTo:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">printDocument:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">revertDocumentToSaved:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">runPageLayout:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">saveDocument:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">saveDocumentAs:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">saveDocumentTo:</string>
+								<string key="candidateClassName">id</string>
+							</object>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -2024,6 +2283,22 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">AppKit.framework/Headers/NSScroller.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NSSlider</string>
+					<string key="superclassName">NSControl</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBFrameworkSource</string>
+						<string key="minorKey">AppKit.framework/Headers/NSSlider.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NSSliderCell</string>
+					<string key="superclassName">NSActionCell</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBFrameworkSource</string>
+						<string key="minorKey">AppKit.framework/Headers/NSSliderCell.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
