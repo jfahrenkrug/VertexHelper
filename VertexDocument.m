@@ -253,7 +253,7 @@
 			}
 			
 			if ([typePopUpButton selectedTag] == VHTYPE_Plist) {
-				result=@"<dict>\n";
+				result=@"<key>shape</key>\n<dict>\n";
 			}
 			
 			for (int p = 0; p < [points count]; p++) {
