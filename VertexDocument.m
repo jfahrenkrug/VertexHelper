@@ -13,6 +13,7 @@
 #define VHTYPE_PURE		0
 #define VHTYPE_BOX2D	1
 #define VHTYPE_CHIPMUNK 2
+#define VHTYPE_Plist 3
 
 #define VHSTYLE_ASSIGN	0
 #define VHSTYLE_INIT	1
@@ -251,6 +252,10 @@
 				result = [result stringByAppendingFormat:@"int num = %i;\n", [points count]];
 			}
 			
+			if ([typePopUpButton selectedTag] == VHTYPE_Plist) {
+				result=@"<dict>\n";
+			}
+			
 			for (int p = 0; p < [points count]; p++) {
 				NSPoint point = [[points objectAtIndex:p] pointValue];
 				switch ([typePopUpButton selectedTag]) {
@@ -308,9 +313,18 @@
 						}
 						
 						break;
+					case VHTYPE_Plist:
+						result= [result stringByAppendingFormat:@"<key>x%d</key>\n",p];
+						result =[result stringByAppendingFormat:@"<real>%.1f</real>\n",point.x];
+						result= [result stringByAppendingFormat:@"<key>y%d</key>\n",p];
+						result =[result stringByAppendingFormat:@"<real>%.1f</real>\n",point.y];
+						break;
 					default:
 						break;
 				}
+			}
+			if ([typePopUpButton selectedTag] == VHTYPE_Plist) {
+				result=[result stringByAppendingString:@"</dict>\n"];
 			}
 			result = [result stringByAppendingString:@"\n"];			  
 		}
