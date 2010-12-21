@@ -8,6 +8,7 @@
 
 #import "VertexDocument.h"
 #import "VertexScanner.h"
+#import "PrioritySplitViewDelegate.h"
 #import <AppKit/AppKit.h>
 
 #define VHTYPE_PURE		0
@@ -16,6 +17,11 @@
 
 #define VHSTYLE_ASSIGN	0
 #define VHSTYLE_INIT	1
+
+@interface VertexDocument(PrivateAPI)
+- (void)setUpSplitViewDelegate;
+@end
+
 
 @implementation VertexDocument
 
@@ -38,6 +44,8 @@
 - (void)windowControllerDidLoadNib:(NSWindowController *) aController
 {
     [super windowControllerDidLoadNib:aController];
+	
+	[self setUpSplitViewDelegate];
 	
 	[imageView setImageWithURL:	[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForImageResource:@"drop_sprite.png"]]];
 	[imageView setCurrentToolMode: IKToolModeMove];
@@ -319,16 +327,19 @@
 	[resultTextView setString: result];
 }
 
-#pragma mark NSSplitView delegate methods
+#pragma mark -
+#pragma mark SplitViewDelegate Set Up 
 
-- (CGFloat)splitView:(NSSplitView *)sender constrainMaxCoordinate:(CGFloat)proposedMax ofSubviewAt:(NSInteger)offset
+- (void)setUpSplitViewDelegate 
 {
-	return proposedMax - 100.0;
-}
-
-- (CGFloat)splitView:(NSSplitView *)sender constrainMinCoordinate:(CGFloat)proposedMin ofSubviewAt:(NSInteger)offset
-{
-	return proposedMin + 100.0;
+	PrioritySplitViewDelegate *splitViewDelegate = [[PrioritySplitViewDelegate alloc] init];
+	
+	[splitViewDelegate setPriority:0 forViewAtIndex:0]; // top priority for top view
+	[splitViewDelegate setMinimumLength:100 forViewAtIndex:0];
+	[splitViewDelegate setPriority:1 forViewAtIndex:1];
+	[splitViewDelegate setMinimumLength:[[[splitView subviews] objectAtIndex:1] frame].size.height forViewAtIndex:1];
+	
+	[splitView setDelegate:splitViewDelegate];
 }
 
 - (void)dealloc

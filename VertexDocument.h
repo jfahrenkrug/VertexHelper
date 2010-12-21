@@ -25,6 +25,8 @@
 	IBOutlet NSButton *scanButton;
 	IBOutlet NSTextField *commandLineField;
 	
+	IBOutlet NSSplitView *splitView;
+	
 	ImageViewGridLayer *gridLayer;
 	// each row has columns, each column has points
 	NSMutableArray *pointMatrix;
