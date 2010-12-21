@@ -20,18 +20,22 @@
 
 @interface VertexDocument(PrivateAPI)
 - (void)setUpSplitViewDelegate;
+- (BOOL)hasPointsDefined;
+- (void)setUpPointMatrixForRows:(int)rows cols:(int)cols;
+- (void)enableUI:(BOOL)enable;
 @end
 
 
 @implementation VertexDocument
 
-@synthesize pointMatrix;
+@synthesize pointMatrix, imageLoaded;
 
 - (id)init
 {
     self = [super init];
     if (self) {
 		pointMatrix = [[NSMutableArray alloc] init];
+		imageLoaded = NO;
     }
     return self;
 }
@@ -126,6 +130,8 @@
 		{
 			filePath = [files objectAtIndex:0];
 			[imageView setImageWithURL:[NSURL fileURLWithPath:filePath]];
+			imageLoaded = YES;
+			[self enableUI:YES];
 		}
 	}
 	return YES;
@@ -140,15 +146,22 @@
 	
 	
 	if (rows <= 50 && cols <= 50 && (rows != gridLayer.rows || cols != gridLayer.cols)) {
-		//reset our array
-		[pointMatrix removeAllObjects];
-		for (int r = 0; r < rows; r++) {
-			[pointMatrix addObject:[NSMutableArray array]];
-			for (int c = 0; c < cols; c++) {
-				[[pointMatrix objectAtIndex:r] addObject:[NSMutableArray array]];
+		if ([self hasPointsDefined]) {
+			NSAlert *alert = [NSAlert alertWithMessageText:@"Reset all the vertices?"
+											 defaultButton:@"Yes, reset them." alternateButton:@"Cancel"
+											   otherButton:nil informativeTextWithFormat:@"Changing the number of rows and columns will reset all the vertices you have defined."];
+			
+			if ([alert runModal] != NSAlertDefaultReturn) {
+				NSLog(@"clicked no");
+				rowsTextField.stringValue = [NSString stringWithFormat:@"%i", gridLayer.rows];
+				colsTextField.stringValue = [NSString stringWithFormat:@"%i", gridLayer.cols];
+				
+				return;
 			}
 		}
 		
+		//reset our array
+		[self setUpPointMatrixForRows:rows cols:cols];
 		
 		gridLayer.rows = rows;
 		gridLayer.cols = cols;
@@ -156,6 +169,23 @@
 		[self updateResultTextField];
 	}
 }
+
+- (IBAction)resetVertices:(id)sender
+{
+	NSAlert *alert = [NSAlert alertWithMessageText:@"Reset all the vertices?"
+									 defaultButton:@"Yes, reset them." alternateButton:@"Cancel"
+									   otherButton:nil informativeTextWithFormat:@""];
+	
+	if ([alert runModal] == NSAlertDefaultReturn) {
+		int rows = [[rowsTextField stringValue] intValue];
+		int cols = [[colsTextField stringValue] intValue];
+		[self setUpPointMatrixForRows:rows cols:cols];
+		[gridLayer setNeedsDisplay];
+		[self updateResultTextField];
+	}
+}
+
+
 
 - (IBAction)scanImage:(id)sender
 {
@@ -327,12 +357,52 @@
 	[resultTextView setString: result];
 }
 
+- (BOOL)hasPointsDefined 
+{
+	for (int r = [pointMatrix count] - 1; r >= 0; r--) {
+		for (int c = 0; c < [[pointMatrix objectAtIndex:r] count]; c++) {
+			NSMutableArray *points = [[pointMatrix objectAtIndex:r] objectAtIndex:c];
+			
+			if ([points count] > 0) {
+				return YES;
+			}
+		}
+	}
+	
+	return NO;
+}
+
+- (void)setUpPointMatrixForRows:(int)rows cols:(int)cols 
+{
+	[pointMatrix removeAllObjects];
+	for (int r = 0; r < rows; r++) {
+		[pointMatrix addObject:[NSMutableArray array]];
+		for (int c = 0; c < cols; c++) {
+			[[pointMatrix objectAtIndex:r] addObject:[NSMutableArray array]];
+		}
+	}	
+}
+
+- (void)enableUI:(BOOL)enable
+{
+	[zoomInButton setEnabled:enable];
+	[zoomOutButton setEnabled:enable];
+	[actualSizeButton setEnabled:enable];
+	[editModeCheckbox setEnabled:enable];
+	
+	[rowsTextField setEnabled:enable];
+	[colsTextField setEnabled:enable];
+	[variableTextField setEnabled:enable];
+	[typePopUpButton setEnabled:enable];
+	[stylePopUpButton setEnabled:enable];
+}
+
 #pragma mark -
 #pragma mark SplitViewDelegate Set Up 
 
 - (void)setUpSplitViewDelegate 
 {
-	PrioritySplitViewDelegate *splitViewDelegate = [[PrioritySplitViewDelegate alloc] init];
+	splitViewDelegate = [[PrioritySplitViewDelegate alloc] init];
 	
 	[splitViewDelegate setPriority:0 forViewAtIndex:0]; // top priority for top view
 	[splitViewDelegate setMinimumLength:100 forViewAtIndex:0];
@@ -342,9 +412,33 @@
 	[splitView setDelegate:splitViewDelegate];
 }
 
+#pragma mark -
+#pragma mark Menu Delegate Methods
+- (BOOL) validateMenuItem: (NSMenuItem *) menuItem
+{
+	BOOL enable = NO;
+	
+    if ([menuItem action] == @selector(resetVertices:))
+    {
+		enable = self.imageLoaded;
+    }
+    else if ([menuItem action] == @selector(scanImage:))
+    {
+		enable = self.imageLoaded;
+    }
+    else
+    {
+        enable = [super validateMenuItem:menuItem]; 
+    }
+	
+    return enable;
+}
+
 - (void)dealloc
 {
 	[pointMatrix release];
+	[splitView setDelegate:nil];
+	[splitViewDelegate release];
 	
 	[super dealloc];
 }
