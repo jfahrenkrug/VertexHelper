@@ -132,6 +132,7 @@
 			[imageView setImageWithURL:[NSURL fileURLWithPath:filePath]];
 			imageLoaded = YES;
 			[self enableUI:YES];
+			[self updateGrid:self];
 		}
 	}
 	return YES;

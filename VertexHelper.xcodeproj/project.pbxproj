@@ -20,6 +20,7 @@
 		8F7B77921136C35800DE53AE /* drop_sprite.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F7B77911136C35800DE53AE /* drop_sprite.png */; };
 		8F7B77F51136F58400DE53AE /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 8F7B77F41136F58400DE53AE /* icon.icns */; };
 		8FF6A23712C08E0D005EF244 /* PrioritySplitViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FF6A23612C08E0D005EF244 /* PrioritySplitViewDelegate.m */; };
+		8FF6A31112C0ADA6005EF244 /* SWImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FF6A31012C0ADA6005EF244 /* SWImageView.m */; };
 		E0E6CFE411CF660000DED378 /* VertexScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0E6CFE311CF660000DED378 /* VertexScanner.cpp */; };
 		E0E6D04A11CFB95100DED378 /* VertexScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0E6CFE311CF660000DED378 /* VertexScanner.cpp */; };
 		E0E6D04F11CFB99A00DED378 /* VertexScannerMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0E6D04D11CFB98800DED378 /* VertexScannerMain.cpp */; };
@@ -51,6 +52,8 @@
 		8F7B77F41136F58400DE53AE /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
 		8FF6A23512C08E0D005EF244 /* PrioritySplitViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrioritySplitViewDelegate.h; sourceTree = "<group>"; };
 		8FF6A23612C08E0D005EF244 /* PrioritySplitViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrioritySplitViewDelegate.m; sourceTree = "<group>"; };
+		8FF6A30F12C0ADA6005EF244 /* SWImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWImageView.h; sourceTree = "<group>"; };
+		8FF6A31012C0ADA6005EF244 /* SWImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWImageView.m; sourceTree = "<group>"; };
 		E0E6CFE211CF660000DED378 /* VertexScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VertexScanner.h; sourceTree = "<group>"; };
 		E0E6CFE311CF660000DED378 /* VertexScanner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VertexScanner.cpp; sourceTree = "<group>"; };
 		E0E6D03F11CFB7E400DED378 /* VertexScanner */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = VertexScanner; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -135,6 +138,8 @@
 				2A37F4ACFDCFA73011CA2CEA /* VertexDocument.m */,
 				8FF6A23512C08E0D005EF244 /* PrioritySplitViewDelegate.h */,
 				8FF6A23612C08E0D005EF244 /* PrioritySplitViewDelegate.m */,
+				8FF6A30F12C0ADA6005EF244 /* SWImageView.h */,
+				8FF6A31012C0ADA6005EF244 /* SWImageView.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -270,6 +275,7 @@
 				8F29AD51112F509600459CEB /* ImageViewGridLayer.m in Sources */,
 				E0E6CFE411CF660000DED378 /* VertexScanner.cpp in Sources */,
 				8FF6A23712C08E0D005EF244 /* PrioritySplitViewDelegate.m in Sources */,
+				8FF6A31112C0ADA6005EF244 /* SWImageView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

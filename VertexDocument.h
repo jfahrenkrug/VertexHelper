@@ -8,7 +8,7 @@
 
 
 #import <Cocoa/Cocoa.h>
-#import <Quartz/Quartz.h>
+#import "SWImageView.h"
 #import "ImageViewGridLayer.h"
 
 @class PrioritySplitViewDelegate;
@@ -18,7 +18,7 @@
 	IBOutlet NSTextField *rowsTextField;
 	IBOutlet NSTextField *colsTextField;
 	IBOutlet NSTextView *resultTextView;
-	IBOutlet IKImageView *imageView;
+	IBOutlet SWImageView *imageView;
 	
 	IBOutlet NSButton *zoomInButton;
 	IBOutlet NSButton *zoomOutButton;
