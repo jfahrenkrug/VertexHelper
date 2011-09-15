@@ -54,6 +54,14 @@
 	[imageView setImageWithURL:	[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForImageResource:@"drop_sprite.png"]]];
 	[imageView setCurrentToolMode: IKToolModeMove];
 	[imageView setDoubleClickOpensImageEditPanel:NO];
+    imageView.autohidesScrollers = NO;
+    imageView.hasHorizontalScroller = YES;
+    imageView.hasVerticalScroller = YES;
+    
+    [[imageView enclosingScrollView] reflectScrolledClipView:
+     [[imageView enclosingScrollView] contentView]];
+
+
 	
 	gridLayer = [ImageViewGridLayer layer];
 	gridLayer.owner = imageView;
@@ -130,6 +138,9 @@
 		{
 			filePath = [files objectAtIndex:0];
 			[imageView setImageWithURL:[NSURL fileURLWithPath:filePath]];
+            [[imageView enclosingScrollView] reflectScrolledClipView:
+             [[imageView enclosingScrollView] contentView]];
+            
 			imageLoaded = YES;
 			[self enableUI:YES];
 			[self updateGrid:self];

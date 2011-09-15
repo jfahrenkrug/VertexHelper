@@ -27,6 +27,7 @@
 		E0E6D05211CFBA1100DED378 /* PNGLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0E6D05111CFBA1100DED378 /* PNGLoader.cpp */; };
 		E0E6D12B11CFC73800DED378 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F29ACF3112EC88300459CEB /* Quartz.framework */; };
 		E0E6D12C11CFC73800DED378 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F29AD45112F4FA800459CEB /* QuartzCore.framework */; };
+		FFFDD82A1421C63100E94E02 /* SWScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = FFFDD8291421C63100E94E02 /* SWScrollView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +61,8 @@
 		E0E6D04D11CFB98800DED378 /* VertexScannerMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VertexScannerMain.cpp; sourceTree = "<group>"; };
 		E0E6D05011CFBA1100DED378 /* PNGLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNGLoader.h; sourceTree = "<group>"; };
 		E0E6D05111CFBA1100DED378 /* PNGLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PNGLoader.cpp; sourceTree = "<group>"; };
+		FFFDD8281421C63100E94E02 /* SWScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWScrollView.h; sourceTree = "<group>"; };
+		FFFDD8291421C63100E94E02 /* SWScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWScrollView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +143,8 @@
 				8FF6A23612C08E0D005EF244 /* PrioritySplitViewDelegate.m */,
 				8FF6A30F12C0ADA6005EF244 /* SWImageView.h */,
 				8FF6A31012C0ADA6005EF244 /* SWImageView.m */,
+				FFFDD8281421C63100E94E02 /* SWScrollView.h */,
+				FFFDD8291421C63100E94E02 /* SWScrollView.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -276,6 +281,7 @@
 				E0E6CFE411CF660000DED378 /* VertexScanner.cpp in Sources */,
 				8FF6A23712C08E0D005EF244 /* PrioritySplitViewDelegate.m in Sources */,
 				8FF6A31112C0ADA6005EF244 /* SWImageView.m in Sources */,
+				FFFDD82A1421C63100E94E02 /* SWScrollView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -331,6 +337,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUILD_STYLE = Debug;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -348,6 +355,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUILD_STYLE = Release;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -362,6 +370,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				BUILD_STYLE = Debug;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -369,7 +378,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				SDKROOT = macosx10.5;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -377,12 +386,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				BUILD_STYLE = Release;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				SDKROOT = macosx10.5;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
@@ -390,6 +400,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUILD_STYLE = Debug;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -412,6 +423,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUILD_STYLE = Release;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
