@@ -14,6 +14,7 @@
 #define VHTYPE_PURE		0
 #define VHTYPE_BOX2D	1
 #define VHTYPE_CHIPMUNK 2
+#define VHTYPE_NSVALUE 3
 
 #define VHSTYLE_ASSIGN	0
 #define VHSTYLE_INIT	1
@@ -358,6 +359,9 @@
 						}
 						
 						break;
+                    case VHTYPE_NSVALUE:
+                        result=[result stringByAppendingFormat:@"[NSValue valueWithCGPoint:ccp(%.1ff, %.1ff)],\n",point.x,point.y];
+                        break;
 					default:
 						break;
 				}
