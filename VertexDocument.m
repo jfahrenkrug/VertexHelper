@@ -10,6 +10,7 @@
 #import "VertexScanner.h"
 #import "PrioritySplitViewDelegate.h"
 #import <AppKit/AppKit.h>
+#import "SWUndo.h"
 
 #define VHTYPE_PURE		0
 #define VHTYPE_BOX2D	1
@@ -24,6 +25,9 @@
 - (BOOL)hasPointsDefined;
 - (void)setUpPointMatrixForRows:(int)rows cols:(int)cols;
 - (void)enableUI:(BOOL)enable;
+
+// undo
+-(void)undoChange:(SWUndo *)change;
 @end
 
 
@@ -276,6 +280,8 @@
 
 - (void)addPoint:(NSPoint)aPoint forRow:(int)aRow col:(int)aCol 
 {
+    [[self undoManager] registerUndoWithTarget:self selector:@selector(undoChange:) object:[SWUndo undoForMatrix:pointMatrix col:aCol-1 row:aRow-1]];
+
 	[[[pointMatrix objectAtIndex:(aRow - 1)] objectAtIndex:(aCol - 1)] addObject:[NSValue valueWithPoint:aPoint]];
 	[gridLayer setNeedsDisplay];
 	[self updateResultTextField];
@@ -459,5 +465,22 @@
 	[super dealloc];
 }
 
+#pragma mark - Undo/Redo
+
+-(void)undoChange:(SWUndo *)change
+{
+    NSInteger r,c;
+    
+    r=change.row;
+    c=change.col;
+    
+    [[self undoManager] registerUndoWithTarget:self selector:@selector(undoChange:) object:[SWUndo undoForMatrix:pointMatrix col:c row:r]];
+
+    [[pointMatrix objectAtIndex:r] removeObjectAtIndex:c];
+    [[pointMatrix objectAtIndex:r] insertObject:change.points atIndex:c];
+    
+	[gridLayer setNeedsDisplay];
+    [self updateResultTextField]; 
+}
 
 @end
