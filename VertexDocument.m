@@ -250,6 +250,8 @@
 - (IBAction)updateOutput:(id)sender
 {
 	[self updateResultTextField];
+    [box2DRatioField setEnabled: 
+     [typePopUpButton selectedTag] == VHTYPE_BOX2D];
 }
 
 - (IBAction)makeAnnotatable:(id)sender 
@@ -273,10 +275,16 @@
 {
 	NSString *result = [NSString string];
 	NSString *variableName = [variableTextField stringValue];
+    NSString *box2dRatioValue = [box2DRatioField stringValue];
+    
+    if(!box2dRatioValue || [box2dRatioValue length] < 1){
+        box2dRatioValue = @"PTM_RATIO";
+    }
 	
 	if (!variableName || [variableName length] < 1) {
 		variableName = @"verts";
 	}
+
 	
 	for (int r = [pointMatrix count] - 1; r >= 0; r--) {
 		for (int c = 0; c < [[pointMatrix objectAtIndex:r] count]; c++) {
@@ -297,7 +305,7 @@
 						result = [result stringByAppendingFormat:@"%.1f, %.1f\n", p, point.x, point.y];
 						break;
 					case VHTYPE_BOX2D:
-						itemString = [NSString stringWithFormat:@"%.1ff / PTM_RATIO, %.1ff / PTM_RATIO", point.x, point.y];
+						itemString = [NSString stringWithFormat:@"%.1ff / %@, %.1ff / %@", point.x, box2dRatioValue, point.y, box2dRatioValue];
 						switch ([stylePopUpButton selectedTag]) {
 							case VHSTYLE_ASSIGN:
 								result = [result stringByAppendingFormat:@"%@[%i].Set(%@);\n", variableName, p, itemString];
