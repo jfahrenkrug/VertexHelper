@@ -32,6 +32,9 @@
 	IBOutlet NSSplitView *splitView;
 	PrioritySplitViewDelegate *splitViewDelegate;
 	
+	IBOutlet NSSlider *angleSlider;
+	IBOutlet NSTextField *angleField;
+	
 	ImageViewGridLayer *gridLayer;
 	// each row has columns, each column has points
 	NSMutableArray *pointMatrix;
@@ -46,6 +49,9 @@
 
 - (IBAction)scanImage:(id)sender;
 - (IBAction)resetVertices:(id)sender;
+
+- (IBAction)angleSliderChanged:(NSSlider*)sender;
+- (IBAction)angleFieldChanged:(NSTextField*)sender;
 
 - (void)addPoint:(NSPoint)aPoint forRow:(int)aRow col:(int)aCol;
 - (void)updateResultTextField;

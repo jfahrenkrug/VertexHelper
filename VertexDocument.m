@@ -70,6 +70,8 @@
 	
 	filePath = nil;
 	gridOK = NO;
+
+	[self angleSliderChanged:angleSlider];
 }
 
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
@@ -209,6 +211,10 @@
 	const UInt8 *data = bits;
 	int cellWidth = (width / gridLayer.cols);
 	int cellHeight = (height / gridLayer.rows);
+
+	ScanParameters params;
+	params.minimumAngle = [angleSlider floatValue];
+	params.maximumAngle = -1;	// use the default value
 	
 	for(int cy=0; cy<[pointMatrix count]; cy++)
 	{
@@ -225,7 +231,7 @@
 			// also offset it by the coordinates of the cell
 			cell.data += (cx*cellWidth*4)+(cy*cellHeight*pitch);
 			Vec2Array points;
-			findPoints(&cell, &points);
+			findPoints(&params, &cell, &points);
 			if(points.count > 0)
 			{
 				NSMutableArray *arr = [cells objectAtIndex: cx];
@@ -245,6 +251,16 @@
 	free(bits);
 	[gridLayer setNeedsDisplay];
 	[self updateResultTextField];
+}
+
+- (IBAction)angleSliderChanged:(NSSlider*)sender
+{
+	[angleField setFloatValue:[angleSlider floatValue]];
+}
+
+- (IBAction)angleFieldChanged:(NSTextField*)sender
+{
+	[angleSlider setFloatValue:[angleField floatValue]];
 }
 
 - (IBAction)updateOutput:(id)sender
