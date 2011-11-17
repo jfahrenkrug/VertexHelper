@@ -41,6 +41,8 @@
 	NSString *filePath;
 	BOOL gridOK;
 	BOOL imageLoaded;
+    
+    IBOutlet NSTextField *box2DRatioField;
 }
 
 - (IBAction)updateGrid:(id)sender;
