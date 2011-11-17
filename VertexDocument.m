@@ -10,11 +10,13 @@
 #import "VertexScanner.h"
 #import "PrioritySplitViewDelegate.h"
 #import <AppKit/AppKit.h>
+#import "SWUndo.h"
 
 #define VHTYPE_PURE		0
 #define VHTYPE_BOX2D	1
 #define VHTYPE_CHIPMUNK 2
 #define VHTYPE_Plist 3
+#define VHTYPE_NSVALUE 4
 
 #define VHSTYLE_ASSIGN	0
 #define VHSTYLE_INIT	1
@@ -24,6 +26,9 @@
 - (BOOL)hasPointsDefined;
 - (void)setUpPointMatrixForRows:(int)rows cols:(int)cols;
 - (void)enableUI:(BOOL)enable;
+
+// undo
+-(void)undoChange:(SWUndo *)change;
 @end
 
 
@@ -55,6 +60,14 @@
 	[imageView setImageWithURL:	[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForImageResource:@"drop_sprite.png"]]];
 	[imageView setCurrentToolMode: IKToolModeMove];
 	[imageView setDoubleClickOpensImageEditPanel:NO];
+    imageView.autohidesScrollers = NO;
+    imageView.hasHorizontalScroller = YES;
+    imageView.hasVerticalScroller = YES;
+    
+    [[imageView enclosingScrollView] reflectScrolledClipView:
+     [[imageView enclosingScrollView] contentView]];
+
+
 	
 	gridLayer = [ImageViewGridLayer layer];
 	gridLayer.owner = imageView;
@@ -133,6 +146,9 @@
 		{
 			filePath = [files objectAtIndex:0];
 			[imageView setImageWithURL:[NSURL fileURLWithPath:filePath]];
+            [[imageView enclosingScrollView] reflectScrolledClipView:
+             [[imageView enclosingScrollView] contentView]];
+            
 			imageLoaded = YES;
 			[self enableUI:YES];
 			[self updateGrid:self];
@@ -281,6 +297,8 @@
 
 - (void)addPoint:(NSPoint)aPoint forRow:(int)aRow col:(int)aCol 
 {
+    [[self undoManager] registerUndoWithTarget:self selector:@selector(undoChange:) object:[SWUndo undoForMatrix:pointMatrix col:aCol-1 row:aRow-1]];
+
 	[[[pointMatrix objectAtIndex:(aRow - 1)] objectAtIndex:(aCol - 1)] addObject:[NSValue valueWithPoint:aPoint]];
 	[gridLayer setNeedsDisplay];
 	[self updateResultTextField];
@@ -374,6 +392,9 @@
 						result= [result stringByAppendingFormat:@"<key>y%d</key>\n",p];
 						result =[result stringByAppendingFormat:@"<real>%.1f</real>\n",point.y];
 						break;
+                    case VHTYPE_NSVALUE:
+                        result=[result stringByAppendingFormat:@"[NSValue valueWithCGPoint:ccp(%.1ff, %.1ff)],\n",point.x,point.y];
+                        break;
 					default:
 						break;
 				}
@@ -474,5 +495,22 @@
 	[super dealloc];
 }
 
+#pragma mark - Undo/Redo
+
+-(void)undoChange:(SWUndo *)change
+{
+    NSInteger r,c;
+    
+    r=change.row;
+    c=change.col;
+    
+    [[self undoManager] registerUndoWithTarget:self selector:@selector(undoChange:) object:[SWUndo undoForMatrix:pointMatrix col:c row:r]];
+
+    [[pointMatrix objectAtIndex:r] removeObjectAtIndex:c];
+    [[pointMatrix objectAtIndex:r] insertObject:change.points atIndex:c];
+    
+	[gridLayer setNeedsDisplay];
+    [self updateResultTextField]; 
+}
 
 @end
