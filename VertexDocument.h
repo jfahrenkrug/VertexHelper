@@ -13,7 +13,7 @@
 
 @class PrioritySplitViewDelegate;
 
-@interface VertexDocument : NSDocument
+@interface VertexDocument : NSDocument<NSWindowDelegate>
 {
 	IBOutlet NSTextField *rowsTextField;
 	IBOutlet NSTextField *colsTextField;

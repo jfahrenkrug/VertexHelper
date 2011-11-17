@@ -17,6 +17,7 @@
 #define VHTYPE_CHIPMUNK 2
 #define VHTYPE_Plist 3
 #define VHTYPE_NSVALUE 4
+#define VHTYPE_COLLISION 5
 
 #define VHSTYLE_ASSIGN	0
 #define VHSTYLE_INIT	1
@@ -313,17 +314,34 @@
 		variableName = @"verts";
 	}
 	
+    CGImageRef img = [imageView image];
+	size_t width = CGImageGetWidth(img);
+	size_t height = CGImageGetHeight(img);	
+
+    int cols = gridLayer.cols;
+	int rows = gridLayer.rows;
+	if (cols==0) cols=1;
+	if (rows==0) rows=1;
+	
+	int cellWidth = (width / cols);
+	int cellHeight = (height / rows);
+
 	for (int r = [pointMatrix count] - 1; r >= 0; r--) {
 		for (int c = 0; c < [[pointMatrix objectAtIndex:r] count]; c++) {
 			NSMutableArray *points = [[pointMatrix objectAtIndex:r] objectAtIndex:c];
 			NSString *itemString = nil;
 			
 			// at the beginning of a different sprite...
-			result = [result stringByAppendingFormat:@"//row %i, col %i\n", ([pointMatrix count] - r), (c + 1)];
+			if ([typePopUpButton selectedTag] != VHTYPE_COLLISION)
+                result = [result stringByAppendingFormat:@"//row %i, col %i\n", ([pointMatrix count] - r), (c + 1)];
 			
-			if ([typePopUpButton selectedTag] != VHTYPE_PURE) {
+			if ([typePopUpButton selectedTag] != VHTYPE_PURE && [typePopUpButton selectedTag] != VHTYPE_COLLISION) {
 				result = [result stringByAppendingFormat:@"int num = %i;\n", [points count]];
 			}
+            
+            if ([typePopUpButton selectedTag] == VHTYPE_COLLISION)
+				result = [result stringByAppendingFormat:@"{%d, %d},", width, height];
+
 			
 			if ([typePopUpButton selectedTag] == VHTYPE_Plist) {
 				result=@"<key>shape</key>\n<dict>\n";
@@ -395,6 +413,10 @@
                     case VHTYPE_NSVALUE:
                         result=[result stringByAppendingFormat:@"[NSValue valueWithCGPoint:ccp(%.1ff, %.1ff)],\n",point.x,point.y];
                         break;
+                    case VHTYPE_COLLISION:
+						result = [result stringByAppendingFormat:@"{%d, %d}", (int)roundf(point.x + (cellWidth*0.5f)), (int)roundf(point.y+(cellHeight*0.5f))];
+						if (p!=[points count]-1) result = [result stringByAppendingString:@","];
+						break;
 					default:
 						break;
 				}
