@@ -340,7 +340,9 @@
 				GCC_PREFIX_HEADER = VertexHelper_Prefix.pch;
 				INFOPLIST_FILE = "VertexHelper-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				PRODUCT_NAME = VertexHelper;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -354,7 +356,9 @@
 				GCC_PREFIX_HEADER = VertexHelper_Prefix.pch;
 				INFOPLIST_FILE = "VertexHelper-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				PRODUCT_NAME = VertexHelper;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
@@ -397,6 +401,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INSTALL_PATH = /usr/local/bin;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -405,6 +410,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = VertexScanner;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -418,6 +424,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INSTALL_PATH = /usr/local/bin;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -426,6 +433,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = VertexScanner;
+				SDKROOT = macosx;
 				ZERO_LINK = NO;
 			};
 			name = Release;
