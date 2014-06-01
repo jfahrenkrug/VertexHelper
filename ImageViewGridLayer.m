@@ -63,6 +63,9 @@
 // -------------------------------------------------------------------------
 - (void)drawInContext:(CGContextRef)context
 {
+    if (cols == 0 || rows == 0)
+        return;
+    
 	//retreive bounds and visible rect
 	NSSize imageSize = [owner imageSize];
 	
