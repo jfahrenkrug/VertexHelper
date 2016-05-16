@@ -14,6 +14,7 @@
 #define VHTYPE_PURE		0
 #define VHTYPE_BOX2D	1
 #define VHTYPE_CHIPMUNK 2
+#define VHTYPE_JSON		3
 
 #define VHSTYLE_ASSIGN	0
 #define VHSTYLE_INIT	1
@@ -277,6 +278,8 @@
 	if (!variableName || [variableName length] < 1) {
 		variableName = @"verts";
 	}
+    
+    NSString* comma = @",";
 	
 	for (int r = [pointMatrix count] - 1; r >= 0; r--) {
 		for (int c = 0; c < [[pointMatrix objectAtIndex:r] count]; c++) {
@@ -286,15 +289,18 @@
 			// at the beginning of a different sprite...
 			result = [result stringByAppendingFormat:@"//row %i, col %i\n", ([pointMatrix count] - r), (c + 1)];
 			
-			if ([typePopUpButton selectedTag] != VHTYPE_PURE) {
+			if ([typePopUpButton selectedTag] != VHTYPE_PURE && [typePopUpButton selectedTag] != VHTYPE_JSON) {
 				result = [result stringByAppendingFormat:@"int num = %i;\n", [points count]];
 			}
+            if ([typePopUpButton selectedTag] == VHTYPE_JSON) {
+                result = [result stringByAppendingFormat:@"{\"%@\": [\n", variableName];
+            }
 			
 			for (int p = 0; p < [points count]; p++) {
 				NSPoint point = [[points objectAtIndex:p] pointValue];
 				switch ([typePopUpButton selectedTag]) {
 					case VHTYPE_PURE:
-						result = [result stringByAppendingFormat:@"%.1f, %.1f\n", p, point.x, point.y];
+						result = [result stringByAppendingFormat:@"%.1f, %.1f\n", point.x, point.y];
 						break;
 					case VHTYPE_BOX2D:
 						itemString = [NSString stringWithFormat:@"%.1ff / PTM_RATIO, %.1ff / PTM_RATIO", point.x, point.y];
@@ -347,10 +353,20 @@
 						}
 						
 						break;
+                    
+                    case VHTYPE_JSON:
+                        comma = @",";
+                        if (p==[points count]-1) comma = @"";
+                        result = [result stringByAppendingFormat:@"{ \"x\": %.1f, \"y\": %.1f}%@\n", point.x, point.y, comma];
+                    
+                        break;
 					default:
 						break;
 				}
 			}
+            if ([typePopUpButton selectedTag] == VHTYPE_JSON) {
+                result = [result stringByAppendingFormat:@"]}\n"];
+            }
 			result = [result stringByAppendingString:@"\n"];			  
 		}
 	}
