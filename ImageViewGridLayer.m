@@ -39,8 +39,8 @@
 	if((self = [super init])){
 		//needs to redraw when bounds change
 		[self setNeedsDisplayOnBoundsChange:YES];
-		green = [[NSColor greenColor] CGColor];
-		gray = [[NSColor grayColor] CGColor];
+		green = [NSColor greenColor];
+		gray = [NSColor grayColor];
 	}
 	
 	return self;
@@ -118,11 +118,11 @@
 					}
 
 				}
-				CGContextSetStrokeColorWithColor(context, green);
+				CGContextSetStrokeColorWithColor(context, [green CGColor]);
 				CGContextStrokePath(context);
 				
 				// the last "auto-connected" line will have a different color...
-				CGContextSetStrokeColorWithColor(context, gray);
+				CGContextSetStrokeColorWithColor(context, [gray CGColor]);
 				CGContextMoveToPoint(context, lastX, lastY);
 				CGContextAddLineToPoint(context, firstX, firstY);
 				CGContextStrokePath(context);
@@ -168,10 +168,7 @@
 }
 
 - (void)dealloc
-{
-	CGColorRelease(gray);
-	CGColorRelease(green);
-	
+{	
 	[super dealloc];
 }
 
