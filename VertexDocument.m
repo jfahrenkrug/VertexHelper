@@ -10,10 +10,14 @@
 #import "VertexScanner.h"
 #import "PrioritySplitViewDelegate.h"
 #import <AppKit/AppKit.h>
+#import "SWUndo.h"
 
 #define VHTYPE_PURE		0
 #define VHTYPE_BOX2D	1
 #define VHTYPE_CHIPMUNK 2
+#define VHTYPE_Plist 3
+#define VHTYPE_NSVALUE 4
+#define VHTYPE_COLLISION 5
 
 #define VHSTYLE_ASSIGN	0
 #define VHSTYLE_INIT	1
@@ -23,6 +27,9 @@
 - (BOOL)hasPointsDefined;
 - (void)setUpPointMatrixForRows:(int)rows cols:(int)cols;
 - (void)enableUI:(BOOL)enable;
+
+// undo
+-(void)undoChange:(SWUndo *)change;
 @end
 
 
@@ -54,6 +61,14 @@
 	[imageView setImageWithURL:	[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForImageResource:@"drop_sprite.png"]]];
 	[imageView setCurrentToolMode: IKToolModeMove];
 	[imageView setDoubleClickOpensImageEditPanel:NO];
+    imageView.autohidesScrollers = NO;
+    imageView.hasHorizontalScroller = YES;
+    imageView.hasVerticalScroller = YES;
+    
+    [[imageView enclosingScrollView] reflectScrolledClipView:
+     [[imageView enclosingScrollView] contentView]];
+
+
 	
 	gridLayer = [ImageViewGridLayer layer];
 	gridLayer.owner = imageView;
@@ -70,6 +85,8 @@
 	
 	filePath = nil;
 	gridOK = NO;
+
+	[self angleSliderChanged:angleSlider];
 }
 
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
@@ -130,6 +147,9 @@
 		{
 			filePath = [files objectAtIndex:0];
 			[imageView setImageWithURL:[NSURL fileURLWithPath:filePath]];
+            [[imageView enclosingScrollView] reflectScrolledClipView:
+             [[imageView enclosingScrollView] contentView]];
+            
 			imageLoaded = YES;
 			[self enableUI:YES];
 			[self updateGrid:self];
@@ -209,6 +229,10 @@
 	const UInt8 *data = bits;
 	int cellWidth = (width / gridLayer.cols);
 	int cellHeight = (height / gridLayer.rows);
+
+	ScanParameters params;
+	params.minimumAngle = [angleSlider floatValue];
+	params.maximumAngle = -1;	// use the default value
 	
 	for(int cy=0; cy<[pointMatrix count]; cy++)
 	{
@@ -225,7 +249,7 @@
 			// also offset it by the coordinates of the cell
 			cell.data += (cx*cellWidth*4)+(cy*cellHeight*pitch);
 			Vec2Array points;
-			findPoints(&cell, &points);
+			findPoints(&params, &cell, &points);
 			if(points.count > 0)
 			{
 				NSMutableArray *arr = [cells objectAtIndex: cx];
@@ -247,9 +271,21 @@
 	[self updateResultTextField];
 }
 
+- (IBAction)angleSliderChanged:(NSSlider*)sender
+{
+	[angleField setFloatValue:[angleSlider floatValue]];
+}
+
+- (IBAction)angleFieldChanged:(NSTextField*)sender
+{
+	[angleSlider setFloatValue:[angleField floatValue]];
+}
+
 - (IBAction)updateOutput:(id)sender
 {
 	[self updateResultTextField];
+    [box2DRatioField setEnabled: 
+     [typePopUpButton selectedTag] == VHTYPE_BOX2D];
 }
 
 - (IBAction)makeAnnotatable:(id)sender 
@@ -264,6 +300,8 @@
 
 - (void)addPoint:(NSPoint)aPoint forRow:(int)aRow col:(int)aCol 
 {
+    [[self undoManager] registerUndoWithTarget:self selector:@selector(undoChange:) object:[SWUndo undoForMatrix:pointMatrix col:aCol-1 row:aRow-1]];
+
 	[[[pointMatrix objectAtIndex:(aRow - 1)] objectAtIndex:(aCol - 1)] addObject:[NSValue valueWithPoint:aPoint]];
 	[gridLayer setNeedsDisplay];
 	[self updateResultTextField];
@@ -273,21 +311,48 @@
 {
 	NSString *result = [NSString string];
 	NSString *variableName = [variableTextField stringValue];
+    NSString *box2dRatioValue = [box2DRatioField stringValue];
+    
+    if(!box2dRatioValue || [box2dRatioValue length] < 1){
+        box2dRatioValue = @"PTM_RATIO";
+    }
 	
 	if (!variableName || [variableName length] < 1) {
 		variableName = @"verts";
 	}
+
 	
+    CGImageRef img = [imageView image];
+	size_t width = CGImageGetWidth(img);
+	size_t height = CGImageGetHeight(img);	
+
+    int cols = gridLayer.cols;
+	int rows = gridLayer.rows;
+	if (cols==0) cols=1;
+	if (rows==0) rows=1;
+	
+	int cellWidth = (width / cols);
+	int cellHeight = (height / rows);
+
 	for (int r = [pointMatrix count] - 1; r >= 0; r--) {
 		for (int c = 0; c < [[pointMatrix objectAtIndex:r] count]; c++) {
 			NSMutableArray *points = [[pointMatrix objectAtIndex:r] objectAtIndex:c];
 			NSString *itemString = nil;
 			
 			// at the beginning of a different sprite...
-			result = [result stringByAppendingFormat:@"//row %i, col %i\n", ([pointMatrix count] - r), (c + 1)];
+			if ([typePopUpButton selectedTag] != VHTYPE_COLLISION)
+                result = [result stringByAppendingFormat:@"//row %i, col %i\n", ([pointMatrix count] - r), (c + 1)];
 			
-			if ([typePopUpButton selectedTag] != VHTYPE_PURE) {
+			if ([typePopUpButton selectedTag] != VHTYPE_PURE && [typePopUpButton selectedTag] != VHTYPE_COLLISION) {
 				result = [result stringByAppendingFormat:@"int num = %i;\n", [points count]];
+			}
+            
+            if ([typePopUpButton selectedTag] == VHTYPE_COLLISION)
+				result = [result stringByAppendingFormat:@"{%d, %d},", width, height];
+
+			
+			if ([typePopUpButton selectedTag] == VHTYPE_Plist) {
+				result=@"<key>shape</key>\n<dict>\n";
 			}
 			
 			for (int p = 0; p < [points count]; p++) {
@@ -297,7 +362,7 @@
 						result = [result stringByAppendingFormat:@"%.1f, %.1f\n", p, point.x, point.y];
 						break;
 					case VHTYPE_BOX2D:
-						itemString = [NSString stringWithFormat:@"%.1ff / PTM_RATIO, %.1ff / PTM_RATIO", point.x, point.y];
+						itemString = [NSString stringWithFormat:@"%.1ff / %@, %.1ff / %@", point.x, box2dRatioValue, point.y, box2dRatioValue];
 						switch ([stylePopUpButton selectedTag]) {
 							case VHSTYLE_ASSIGN:
 								result = [result stringByAppendingFormat:@"%@[%i].Set(%@);\n", variableName, p, itemString];
@@ -347,9 +412,25 @@
 						}
 						
 						break;
+					case VHTYPE_Plist:
+						result= [result stringByAppendingFormat:@"<key>x%d</key>\n",p];
+						result =[result stringByAppendingFormat:@"<real>%.1f</real>\n",point.x];
+						result= [result stringByAppendingFormat:@"<key>y%d</key>\n",p];
+						result =[result stringByAppendingFormat:@"<real>%.1f</real>\n",point.y];
+						break;
+                    case VHTYPE_NSVALUE:
+                        result=[result stringByAppendingFormat:@"[NSValue valueWithCGPoint:ccp(%.1ff, %.1ff)],\n",point.x,point.y];
+                        break;
+                    case VHTYPE_COLLISION:
+						result = [result stringByAppendingFormat:@"{%d, %d}", (int)roundf(point.x + (cellWidth*0.5f)), (int)roundf(point.y+(cellHeight*0.5f))];
+						if (p!=[points count]-1) result = [result stringByAppendingString:@","];
+						break;
 					default:
 						break;
 				}
+			}
+			if ([typePopUpButton selectedTag] == VHTYPE_Plist) {
+				result=[result stringByAppendingString:@"</dict>\n"];
 			}
 			result = [result stringByAppendingString:@"\n"];			  
 		}
@@ -444,5 +525,22 @@
 	[super dealloc];
 }
 
+#pragma mark - Undo/Redo
+
+-(void)undoChange:(SWUndo *)change
+{
+    NSInteger r,c;
+    
+    r=change.row;
+    c=change.col;
+    
+    [[self undoManager] registerUndoWithTarget:self selector:@selector(undoChange:) object:[SWUndo undoForMatrix:pointMatrix col:c row:r]];
+
+    [[pointMatrix objectAtIndex:r] removeObjectAtIndex:c];
+    [[pointMatrix objectAtIndex:r] insertObject:change.points atIndex:c];
+    
+	[gridLayer setNeedsDisplay];
+    [self updateResultTextField]; 
+}
 
 @end
